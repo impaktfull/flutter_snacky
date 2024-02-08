@@ -1,6 +1,7 @@
 name: snacky
-description: Easily display customizable snackbars in Flutter with minimal configuration. Ideal for quick notifications and alerts in your app.
-version: 0.0.1
+description: Easily display customizable snackbars in Flutter with minimal
+  configuration. Ideal for quick notifications and alerts in your app.
+version: 0.0.2
 homepage: https://github.com/Impaktfull/flutter_snacky
 topics:
   - snackbar
@@ -8,18 +9,14 @@ topics:
   - custom-flutter-snackbar
   - flutter-flushbar
   - custom-flutter-toast
-
 environment:
-  sdk: '>=3.2.0 <4.0.0'
+  sdk: ">=3.2.0 <4.0.0"
   flutter: ">=1.17.0"
-
 dependencies:
   flutter:
     sdk: flutter
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-
-flutter:
+flutter: null
