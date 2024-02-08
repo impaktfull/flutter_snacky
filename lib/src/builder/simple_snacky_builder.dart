@@ -58,6 +58,7 @@ class SimpleSnackyBuilder extends SnackyBuilder {
                   if (snacky.leadingWidgetBuilder != null) ...[
                     snacky.leadingWidgetBuilder!
                         .call(context, cancelableSnacky),
+                    const SizedBox(width: 8),
                   ],
                   Expanded(
                     child: Column(
@@ -78,6 +79,7 @@ class SimpleSnackyBuilder extends SnackyBuilder {
                     ),
                   ),
                   if (snacky.trailingWidgetBuilder != null) ...[
+                    const SizedBox(width: 8),
                     snacky.trailingWidgetBuilder!
                         .call(context, cancelableSnacky),
                   ],
