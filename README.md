@@ -1,5 +1,7 @@
 ### Snacky
 
+![Logo](https://raw.githubusercontent.com/impaktfull/flutter_snacky/master/assets/images/logo.svg)
+
 #### You deserve a simple snack!
 
 A lot of the current snackbar & toast libraries are too complicated for simple use cases. Snacky is a simple library that allows you to create a snackbar with minimal setup and an easy to use API.
