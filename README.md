@@ -44,3 +44,8 @@ You can use your own `SnackyController`, `SnackyBuilder` and `Snacky`-messages. 
 By default the `SnackyController` is a singleton, but you can create your own instance of the `SnackyController` and use it in your app. Make sure to pass it to the `SnackyConfiguratorWidget` so that it can be used in the app.
 
 By default the `SnackyBuilder` is a `SimpleSnackyBuilder`, but you can create your own `SnackyBuilder` and use it in your app. Make sure to pass it to the `SnackyConfiguratorWidget` so that it can be used in the app.
+
+### Todo
+
+- [ ] Add tests
+- [ ] Add support for "material"-like snackies
