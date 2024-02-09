@@ -1,3 +1,8 @@
+# 0.0.6
+
+# Feat
+- Tweak `Snacky` logo in the `README.md`
+
 # 0.0.5
 
 # Feat

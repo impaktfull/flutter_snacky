@@ -1,5 +1,3 @@
-### Snacky
-
 ![Logo](https://raw.githubusercontent.com/impaktfull/flutter_snacky/master/assets/logo.svg)
 
 #### You deserve a simple snack!
