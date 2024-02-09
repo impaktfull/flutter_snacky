@@ -1,4 +1,4 @@
-# 0.0.4 - 0.0.8
+# 0.0.4 - 0.0.9
 
 # Feat
 - Added `Snacky` logo to the `README.md`
