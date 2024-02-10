@@ -9,11 +9,7 @@ and an easy to use API.
 
 # Demo
 
-
-
-https://github.com/Impaktfull/flutter_snacky/assets/21172855/3d41ff0b-11e5-402d-9b2d-a803200f65c1
-
-
+https://raw.githubusercontent.com/impaktfull/flutter_snacky/master/assets/preview.dart
 
 # Usage
 

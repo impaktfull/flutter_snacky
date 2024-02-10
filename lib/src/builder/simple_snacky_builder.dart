@@ -3,10 +3,9 @@ import 'package:snacky/src/builder/snacky_builder.dart';
 import 'package:snacky/src/controller/snacky_controller.dart';
 import 'package:snacky/src/model/cancelable_snacky.dart';
 import 'package:snacky/src/model/snacky.dart';
-import 'package:snacky/src/model/snacky_location.dart';
 import 'package:snacky/src/model/snacky_type.dart';
-import 'package:snacky/src/transition/slide_transition.dart';
-import 'package:snacky/src/widget/swipe_detector.dart';
+import 'package:snacky/src/widget/base_snacky_widget.dart';
+import 'package:snacky/src/widget/touch_feedback.dart';
 
 class SimpleSnackyBuilder extends SnackyBuilder {
   final BorderRadius borderRadius;
@@ -15,6 +14,7 @@ class SimpleSnackyBuilder extends SnackyBuilder {
   final Color Function(Snacky)? colorBuilder;
   final BoxBorder Function(Snacky)? borderBuilder;
   final TextStyle Function(Snacky)? textStyleBuilder;
+  final bool disableInkwell;
 
   const SimpleSnackyBuilder({
     this.colorBuilder,
@@ -25,78 +25,68 @@ class SimpleSnackyBuilder extends SnackyBuilder {
       horizontal: 16,
       vertical: 12,
     ),
+    this.disableInkwell = false,
     this.borderRadius = const BorderRadius.all(Radius.circular(0)),
   });
 
   @override
-  Widget build(BuildContext context, CancelableSnacky cancelableSnacky,
-      SnackyController snackyController) {
+  Widget build(BuildContext context, CancelableSnacky cancelableSnacky, SnackyController snackyController) {
     final snacky = cancelableSnacky.snacky;
-    return SlideTransitionExample(
-      snackyController: snackyController,
+    return BaseSnackyWidget(
       cancelableSnacky: cancelableSnacky,
-      child: SafeArea(
-        top: snacky.location == SnackyLocation.top,
-        bottom: snacky.location == SnackyLocation.bottom,
-        child: GestureDetector(
-          onTap: snacky.onTap,
-          child: SwipeDetector(
-            enabled: cancelableSnacky.isNotCancelled,
-            alignment: snacky.location.alignment,
-            onSwipe: () => cancelableSnacky.cancel(),
-            child: Container(
-              width: double.infinity,
-              margin: margin,
-              decoration: BoxDecoration(
-                color: _getColor(snacky),
-                border: _getBorder(snacky),
-                borderRadius: borderRadius,
-              ),
-              padding: padding,
-              child: Row(
+      snackyController: snackyController,
+      margin: margin,
+      disableInkWell: disableInkwell,
+      borderRadius: borderRadius,
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: _getColor(snacky),
+          border: _getBorder(snacky),
+          borderRadius: borderRadius,
+        ),
+        padding: padding,
+        child: Row(
+          children: [
+            if (snacky.leadingWidgetBuilder != null) ...[
+              snacky.leadingWidgetBuilder!.call(context, cancelableSnacky),
+              const SizedBox(width: 8),
+            ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  if (snacky.leadingWidgetBuilder != null) ...[
-                    snacky.leadingWidgetBuilder!
-                        .call(context, cancelableSnacky),
-                    const SizedBox(width: 8),
-                  ],
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          snacky.title,
-                          style: _getTextStyle(snacky),
-                        ),
-                        if (snacky.subtitle != null) ...[
-                          const SizedBox(height: 4),
-                          Text(
-                            snacky.subtitle!,
-                          ),
-                        ]
-                      ],
-                    ),
+                  Text(
+                    snacky.title,
+                    style: _getTextStyle(snacky),
                   ),
-                  if (snacky.trailingWidgetBuilder != null) ...[
-                    const SizedBox(width: 8),
-                    snacky.trailingWidgetBuilder!
-                        .call(context, cancelableSnacky),
-                  ],
-                  if (snacky.canBeClosed) ...[
-                    const SizedBox(width: 8),
-                    GestureDetector(
-                      onTap: () => cancelableSnacky.cancel(),
-                      child: Icon(
-                        Icons.close,
-                        color: _getTextStyle(snacky).color,
-                      ),
+                  if (snacky.subtitle != null) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      snacky.subtitle!,
                     ),
-                  ],
+                  ]
                 ],
               ),
             ),
-          ),
+            if (snacky.trailingWidgetBuilder != null) ...[
+              const SizedBox(width: 8),
+              snacky.trailingWidgetBuilder!.call(context, cancelableSnacky),
+            ],
+            if (snacky.canBeClosed) ...[
+              const SizedBox(width: 8),
+              TouchFeedback(
+                borderRadius: BorderRadius.circular(999),
+                onTap: () => cancelableSnacky.cancel(),
+                disableInkWell: disableInkwell,
+                child: Icon(
+                  Icons.close,
+                  color: _getTextStyle(snacky).color,
+                ),
+              ),
+            ],
+          ],
         ),
       ),
     );
