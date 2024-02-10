@@ -1,6 +1,6 @@
 ![Logo](https://raw.githubusercontent.com/impaktfull/flutter_snacky/master/assets/logo.svg)
 
-
+[![pub package](https://img.shields.io/pub/v/snacky.svg)](https://pub.dartlang.org/packages/snacky)
 
 # You deserve a simple snack!
 
