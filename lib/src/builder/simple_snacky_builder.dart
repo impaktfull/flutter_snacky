@@ -30,7 +30,11 @@ class SimpleSnackyBuilder extends SnackyBuilder {
   });
 
   @override
-  Widget build(BuildContext context, CancelableSnacky cancelableSnacky, SnackyController snackyController) {
+  Widget build(
+    BuildContext context,
+    CancelableSnacky cancelableSnacky,
+    SnackyController snackyController,
+  ) {
     final snacky = cancelableSnacky.snacky;
     return BaseSnackyWidget(
       cancelableSnacky: cancelableSnacky,
