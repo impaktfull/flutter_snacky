@@ -1,10 +1,21 @@
 ![Logo](https://raw.githubusercontent.com/impaktfull/flutter_snacky/master/assets/logo.svg)
 
-#### You deserve a simple snack!
 
-A lot of the current snackbar & toast libraries are too complicated for simple use cases. Snacky is a simple library that allows you to create a snackbar with minimal setup and an easy to use API.
 
-### Usage
+# You deserve a simple snack!
+
+A lot of the current snackbar & toast libraries are too complicated for simple use cases. Snacky is a simple library that allows you to create a snackbar with minimal setup 
+and an easy to use API.
+
+# Demo
+
+
+
+https://github.com/Impaktfull/flutter_snacky/assets/21172855/3d41ff0b-11e5-402d-9b2d-a803200f65c1
+
+
+
+# Usage
 
 ```dart
 @override
@@ -17,7 +28,7 @@ Widget build(BuildContext context) {
 }
 ```
 
-#### Show a snacky
+## Show a snacky
 ```dart
 final snacky = Snacky(
     title: 'My super simple snacky title',
@@ -25,17 +36,17 @@ final snacky = Snacky(
 SnackyController.instance.showMessage(snacky);
 ```
 
-#### Cancel the active snacky
+## Cancel the active snacky
 ```dart
 SnackyController.instance.cancelActiveSnacky()
 ```
 
-#### Cancel all snackies
+## Cancel all snackies
 ```dart
 SnackyController.instance.cancelAll()
 ```
 
-### Easy to extend
+## Easy to extend
 
 You can use your own `SnackyController`, `SnackyBuilder` and `Snacky`-messages. This allows you to create your own snacky messages and use your own snacky controller.
 
@@ -43,7 +54,7 @@ By default the `SnackyController` is a singleton, but you can create your own in
 
 By default the `SnackyBuilder` is a `SimpleSnackyBuilder`, but you can create your own `SnackyBuilder` and use it in your app. Make sure to pass it to the `SnackyConfiguratorWidget` so that it can be used in the app.
 
-### Todo
+# Todo
 
 - [ ] Add tests
 - [ ] Add support for "material"-like snackies
