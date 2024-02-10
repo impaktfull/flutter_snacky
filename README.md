@@ -9,7 +9,7 @@ and an easy to use API.
 
 # Demo
 
-https://raw.githubusercontent.com/impaktfull/flutter_snacky/master/assets/preview.dart
+https://raw.githubusercontent.com/impaktfull/flutter_snacky/master/assets/preview.mp4
 
 # Usage
 
