@@ -5,6 +5,7 @@ import 'package:snacky/src/model/cancelable_snacky.dart';
 import 'package:snacky/src/model/snacky.dart';
 import 'package:snacky/src/model/snacky_type.dart';
 import 'package:snacky/src/widget/base_snacky_widget.dart';
+import 'package:snacky/src/widget/touch_feedback.dart';
 
 class SimpleSnackyBuilder extends SnackyBuilder {
   final BorderRadius borderRadius;
@@ -13,6 +14,7 @@ class SimpleSnackyBuilder extends SnackyBuilder {
   final Color Function(Snacky)? colorBuilder;
   final BoxBorder Function(Snacky)? borderBuilder;
   final TextStyle Function(Snacky)? textStyleBuilder;
+  final bool disableInkwell;
 
   const SimpleSnackyBuilder({
     this.colorBuilder,
@@ -23,17 +25,19 @@ class SimpleSnackyBuilder extends SnackyBuilder {
       horizontal: 16,
       vertical: 12,
     ),
+    this.disableInkwell = false,
     this.borderRadius = const BorderRadius.all(Radius.circular(0)),
   });
 
   @override
-  Widget build(BuildContext context, CancelableSnacky cancelableSnacky,
-      SnackyController snackyController) {
+  Widget build(BuildContext context, CancelableSnacky cancelableSnacky, SnackyController snackyController) {
     final snacky = cancelableSnacky.snacky;
     return BaseSnackyWidget(
       cancelableSnacky: cancelableSnacky,
       snackyController: snackyController,
       margin: margin,
+      disableInkWell: disableInkwell,
+      borderRadius: borderRadius,
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -72,8 +76,10 @@ class SimpleSnackyBuilder extends SnackyBuilder {
             ],
             if (snacky.canBeClosed) ...[
               const SizedBox(width: 8),
-              GestureDetector(
+              TouchFeedback(
+                borderRadius: BorderRadius.circular(999),
                 onTap: () => cancelableSnacky.cancel(),
+                disableInkWell: disableInkwell,
                 child: Icon(
                   Icons.close,
                   color: _getTextStyle(snacky).color,
