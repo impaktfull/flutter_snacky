@@ -1,17 +1,22 @@
+# 0.0.14
+
+## Fix
+- Better documentation in the `README.md` about the `SnackyNavigationObserver`
+
 # 0.0.12 - 0.0.13
 
-## Feat
+## Fix
 - Extra documentation in the `README.md`
 
 # 0.0.10 - 0.0.11
 
-## Feat
+## Fix
 - Automated builds using GitHub Actions
 - Added preview video to the `README.md`
 
 # 0.0.4 - 0.0.9
 
-## Feat
+## Fix
 - Added `Snacky` logo to the `README.md`
 
 # 0.0.3

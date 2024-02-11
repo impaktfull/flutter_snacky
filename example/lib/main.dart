@@ -22,6 +22,9 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: colorAccent),
           useMaterial3: true,
         ),
+        navigatorObservers: [
+          SnackyNavigationObserver(),
+        ],
         home: const HomeScreen(),
       ),
     );

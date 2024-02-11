@@ -19,6 +19,11 @@ Widget build(BuildContext context) {
     return SnackyConfiguratorWidget(
         app: MaterialApp(
             ...
+            // Optional if you want to close snackies on push/replacement
+            navigatorObservers: [
+                SnackyNavigationObserver(),
+            ],
+            ...
         ),
     );
 }
