@@ -1,9 +1,13 @@
+# 0.0.12
+
+## Feat
+- Extra documentation in the `README.md`
+
 # 0.0.10 - 0.0.11
 
 ## Feat
 - Automated builds using GitHub Actions
 - Added preview video to the `README.md`
-- Extra documentation in the `README.md`
 
 # 0.0.4 - 0.0.9
 
