@@ -1,12 +1,13 @@
 # 0.0.10 - 0.0.11
 
-# Feat
+## Feat
 - Automated builds using GitHub Actions
 - Added preview video to the `README.md`
+- Extra documentation in the `README.md`
 
 # 0.0.4 - 0.0.9
 
-# Feat
+## Feat
 - Added `Snacky` logo to the `README.md`
 
 # 0.0.3
