@@ -9,6 +9,6 @@ jobs:
   publish:
     permissions:
       id-token: write # Required for authentication using OIDC
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    uses: Impaktfull/gh_action_dart_conventional_release/custom_workflows/flutter_release.yml@main
     with:
       environment: 'pub.dev'
