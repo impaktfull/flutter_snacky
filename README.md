@@ -4,7 +4,7 @@
 
 # You deserve a simple snack!
 
-A lot of the current snackbar & toast libraries are too complicated for simple use cases. Snacky is a simple library that allows you to create a snackbar with minimal setup 
+A lot of the current snackbar & toast libraries are too complicated for simple use cases. Snacky is a simple library that allows you to create a snackbar with minimal setup
 and an easy to use API.
 
 # Demo
@@ -30,6 +30,7 @@ Widget build(BuildContext context) {
 ```
 
 ## Show a snacky
+
 ```dart
 final snacky = Snacky(
     title: 'My super simple snacky title',
@@ -45,15 +46,17 @@ final snacky = Snacky(
     leadingWidgetBuilder: (context, snacky) => Icon(Icons.check), // A widget that should be shown before the title
     trailingWidgetBuilder: (context, snacky) => Icon(Icons.close), // A widget that should be shown after the title
 );
-SnackyController.instance.showMessage(snacky);
+SnackyController.instance.showMessage((context) => snacky);
 ```
 
 ## Cancel the active snacky
+
 ```dart
 SnackyController.instance.cancelActiveSnacky()
 ```
 
 ## Cancel all snackies
+
 ```dart
 SnackyController.instance.cancelAll()
 ```

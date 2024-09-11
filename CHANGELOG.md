@@ -1,3 +1,8 @@
+# 0.2.1
+
+## Documentation
+- Fixed readme.md
+
 # 0.2.0
 
 ## Breaking
