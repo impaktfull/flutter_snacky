@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                 title: 'Top',
                 type: SnackyType.success,
               );
-              SnackyController.instance.showMessage(snacky);
+              SnackyController.instance.showMessage((context) => snacky);
             },
           ),
           ExampleButton(
@@ -62,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                 title: 'Top',
                 type: SnackyType.error,
               );
-              SnackyController.instance.showMessage(snacky);
+              SnackyController.instance.showMessage((context) => snacky);
             },
           ),
           ExampleButton(
@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                 title: 'Top',
                 type: SnackyType.warning,
               );
-              SnackyController.instance.showMessage(snacky);
+              SnackyController.instance.showMessage((context) => snacky);
             },
           ),
           ExampleButton(
@@ -82,7 +82,7 @@ class HomeScreen extends StatelessWidget {
                 title: 'Top',
                 type: SnackyType.info,
               );
-              SnackyController.instance.showMessage(snacky);
+              SnackyController.instance.showMessage((context) => snacky);
             },
           ),
           const SizedBox(height: 32),
@@ -94,7 +94,7 @@ class HomeScreen extends StatelessWidget {
                 type: SnackyType.success,
                 location: SnackyLocation.bottom,
               );
-              SnackyController.instance.showMessage(snacky);
+              SnackyController.instance.showMessage((context) => snacky);
             },
           ),
           ExampleButton(
@@ -105,7 +105,7 @@ class HomeScreen extends StatelessWidget {
                 type: SnackyType.success,
                 canBeClosed: true,
               );
-              SnackyController.instance.showMessage(snacky);
+              SnackyController.instance.showMessage((context) => snacky);
             },
           ),
           ExampleButton(
@@ -116,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                 type: SnackyType.success,
                 onTap: () => SnackyController.instance.cancelAll(),
               );
-              SnackyController.instance.showMessage(snacky);
+              SnackyController.instance.showMessage((context) => snacky);
             },
           ),
           ExampleButton(
@@ -128,7 +128,7 @@ class HomeScreen extends StatelessWidget {
                 type: SnackyType.success,
                 openUntillClosed: true,
               );
-              SnackyController.instance.showMessage(snacky);
+              SnackyController.instance.showMessage((context) => snacky);
             },
           ),
           ExampleButton(
@@ -142,7 +142,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 location: SnackyLocation.topEnd,
               );
-              SnackyController.instance.showMessage(snacky);
+              SnackyController.instance.showMessage((context) => snacky);
             },
           ),
           ExampleButton.primary(

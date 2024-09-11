@@ -3,6 +3,7 @@ import 'package:snacky/src/builder/simple_snacky_builder.dart';
 import 'package:snacky/src/builder/snacky_builder.dart';
 import 'package:snacky/src/controller/snacky_controller.dart';
 import 'package:snacky/src/controller/snacky_controller_listener.dart';
+import 'package:snacky/src/model/cancelable_snacky.dart';
 
 class SnackyConfiguratorWidget extends StatefulWidget {
   final Widget app;
@@ -41,32 +42,49 @@ class _SnackyConfiguratorWidgetState extends State<SnackyConfiguratorWidget>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.topCenter,
-      children: [
-        Positioned.fill(child: widget.app),
-        Positioned.fill(
-          child: Directionality(
-            textDirection: widget.textDirection,
-            child: ValueListenableBuilder(
-              valueListenable: snackyController.activeSnacky,
-              builder: (context, activeSnacky, child) {
-                if (activeSnacky == null) return const SizedBox();
-                return Stack(
-                  key: ValueKey(activeSnacky.hashCode),
-                  alignment: activeSnacky.snacky.location.alignment,
-                  children: [
-                    widget.snackyBuilder
-                        .build(context, activeSnacky, snackyController),
-                  ],
-                );
-              },
-            ),
-          ),
+  Widget build(BuildContext context) => widget.app;
+
+  @override
+  Widget buildSnacky(BuildContext context, CancelableSnacky activeSnacky) {
+    return Directionality(
+      textDirection: widget.textDirection,
+      child: Builder(
+        builder: (context) => Stack(
+          key: ValueKey(activeSnacky.hashCode),
+          alignment: activeSnacky.snacky.location.alignment,
+          children: [
+            widget.snackyBuilder.build(context, activeSnacky, snackyController),
+          ],
         ),
-      ],
+      ),
     );
+  }
+
+  @override
+  OverlayState? getOverlayState() {
+    NavigatorState? navigator;
+    void visitor(Element element) {
+      if (navigator != null) return;
+      if (element.widget is Navigator) {
+        navigator = (element as StatefulElement).state as NavigatorState?;
+      } else {
+        element.visitChildElements(visitor);
+      }
+    }
+
+    context.visitChildElements(visitor);
+
+    assert(navigator != null,
+        '''It looks like you are not using Navigator in your app.
+         Do you wrapped you app widget like this?
+         SnackyConfiguratorWidget(
+           app: MaterialApp(
+             title: 'Snacky Example',
+             home: HomeScren(),
+           ),
+         )
+      ''');
+    return navigator?.overlay;
   }
 
   @override

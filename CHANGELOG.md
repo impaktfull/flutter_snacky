@@ -1,3 +1,13 @@
+# 0.2.0
+
+## Breaking
+
+- Added support to use context before creating the `Snacky` object
+
+## Feat
+
+- Switch to OverlayState instead of a custom implementation
+
 # 0.1.0
 
 ## Feat
