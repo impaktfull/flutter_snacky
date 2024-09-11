@@ -2,5 +2,6 @@ enum SnackyType {
   success,
   error,
   warning,
-  info;
+  info,
+  branded;
 }

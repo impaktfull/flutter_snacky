@@ -28,8 +28,8 @@ class BaseSnackyWidget extends StatelessWidget {
       snackyController: snackyController,
       cancelableSnacky: cancelableSnacky,
       child: SafeArea(
-        top: snacky.location == SnackyLocation.top,
-        bottom: snacky.location == SnackyLocation.bottom,
+        top: snacky.location.isTop,
+        bottom: snacky.location.isBottom,
         child: SwipeDetector(
           enabled: cancelableSnacky.isNotCancelled,
           alignment: snacky.location.alignment,

@@ -122,10 +122,25 @@ class HomeScreen extends StatelessWidget {
           ExampleButton(
             title: 'show successs that will stay open untill closed',
             onTap: () {
-              const snacky = Snacky.openUntillClosed(
+              const snacky = Snacky(
                 title: 'Top (open untill closed/cancelled)',
                 canBeClosed: true,
                 type: SnackyType.success,
+                openUntillClosed: true,
+              );
+              SnackyController.instance.showMessage(snacky);
+            },
+          ),
+          ExampleButton(
+            title: 'show custom widget',
+            onTap: () {
+              final snacky = Snacky.widget(
+                builder: (context, cancelabelSnacky) => Container(
+                  color: Colors.amber,
+                  padding: const EdgeInsets.all(16),
+                  child: const Text('This is a custom widget'),
+                ),
+                location: SnackyLocation.topEnd,
               );
               SnackyController.instance.showMessage(snacky);
             },

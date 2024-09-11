@@ -49,7 +49,13 @@ class _SlideTransitionExampleState extends State<SlideTransitionExample>
       });
 
     // Animation
-    const beginX = 0;
+    final beginX = snacky.location == SnackyLocation.topStart ||
+            snacky.location == SnackyLocation.bottomStart
+        ? -1
+        : snacky.location == SnackyLocation.topEnd ||
+                snacky.location == SnackyLocation.bottomEnd
+            ? 1
+            : 0;
     final beginY = snacky.location == SnackyLocation.top
         ? -1
         : snacky.location == SnackyLocation.bottom

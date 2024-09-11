@@ -4,18 +4,21 @@ import 'package:snacky/src/model/snacky_location.dart';
 import 'package:snacky/src/model/snacky_type.dart';
 
 class Snacky {
-  final SnackyType type;
   final String title;
+  final SnackyType type;
+  final String? subtitle;
   final Widget Function(BuildContext, CancelableSnacky)? leadingWidgetBuilder;
   final Widget Function(BuildContext, CancelableSnacky)? trailingWidgetBuilder;
+  final Widget Function(BuildContext, CancelableSnacky)? bottomWidgetBuilder;
   final bool openUntillClosed;
   final bool canBeClosed;
-  final String? subtitle;
   final VoidCallback? onTap;
   final Duration showDuration;
   final Duration transitionDuration;
   final Curve transitionCurve;
   final SnackyLocation location;
+
+  final Widget Function(BuildContext, CancelableSnacky)? builder;
 
   const Snacky({
     required this.title,
@@ -23,25 +26,29 @@ class Snacky {
     this.subtitle,
     this.leadingWidgetBuilder,
     this.trailingWidgetBuilder,
+    this.bottomWidgetBuilder,
     this.onTap,
     this.canBeClosed = false,
+    this.openUntillClosed = false,
     this.showDuration = const Duration(seconds: 4),
     this.transitionDuration = const Duration(milliseconds: 250),
     this.transitionCurve = Curves.easeInOut,
     this.location = SnackyLocation.top,
-  }) : openUntillClosed = false;
+  }) : builder = null;
 
-  const Snacky.openUntillClosed({
-    required this.title,
-    this.type = SnackyType.info,
-    this.subtitle,
-    this.leadingWidgetBuilder,
-    this.trailingWidgetBuilder,
-    this.onTap,
-    this.canBeClosed = false,
+  const Snacky.widget({
+    required this.builder,
     this.showDuration = const Duration(seconds: 4),
     this.transitionDuration = const Duration(milliseconds: 250),
     this.transitionCurve = Curves.easeInOut,
     this.location = SnackyLocation.top,
-  }) : openUntillClosed = true;
+  })  : title = '',
+        type = SnackyType.info,
+        subtitle = null,
+        leadingWidgetBuilder = null,
+        trailingWidgetBuilder = null,
+        bottomWidgetBuilder = null,
+        onTap = null,
+        canBeClosed = false,
+        openUntillClosed = false;
 }
