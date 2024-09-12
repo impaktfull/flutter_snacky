@@ -1,11 +1,20 @@
+# 0.2.3
+
+## CI
+
+- CI test job
+
 # 0.2.2
 
 ## Test
+
 - Smoke test to show notifications
 - Smoke test to check if onTap works
+
 # 0.2.1
 
 ## Documentation
+
 - Fixed readme.md
 
 # 0.2.0
