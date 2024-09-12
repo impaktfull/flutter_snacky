@@ -6,6 +6,8 @@ on:
       - main
 jobs:
   test:
+    name: Runs all tests on main
+    runs-on: ubuntu-latest
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
