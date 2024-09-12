@@ -10,5 +10,19 @@
             "type": "dart",
             "program": "lib/main.dart"
         },
+        {
+            "name": "Run w/",
+            "type": "dart",
+            "request": "launch",
+            "runTestsOnDevice": true,
+            "cwd": "example/",
+            "codeLens": {
+              "for": [
+                  "run-test-file",
+                  "debug-test-file",
+              ],
+              "title": "${debugType} on device"
+            }
+          },
     ]
 }
