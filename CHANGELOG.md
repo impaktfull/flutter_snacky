@@ -1,3 +1,9 @@
+# 0.2.4
+
+## CI
+
+- improved CI test job
+
 # 0.2.3
 
 ## CI
