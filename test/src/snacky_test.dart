@@ -17,7 +17,8 @@ void main() {
     onTapValue = null;
   });
 
-  Widget prepareWidgetForTesting([hideOptionalData = false]) => SnackyConfiguratorWidget(
+  Widget prepareWidgetForTesting([hideOptionalData = false]) =>
+      SnackyConfiguratorWidget(
         snackyController: snackyController,
         app: MaterialApp(
           theme: ThemeData(useMaterial3: false),
@@ -55,7 +56,8 @@ void main() {
       await tester.pumpAndSettle();
     });
 
-    testWidgets('Should call the onTap when tapped', (WidgetTester tester) async {
+    testWidgets('Should call the onTap when tapped',
+        (WidgetTester tester) async {
       await tester.pumpWidget(prepareWidgetForTesting());
       await tester.pumpAndSettle();
 
