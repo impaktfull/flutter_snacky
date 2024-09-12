@@ -1,7 +1,7 @@
 name: snacky
 description: Easily display customizable snackbars in Flutter with minimal
   configuration. Ideal for quick notifications and alerts in your app.
-version: 0.2.2
+version: 0.2.3
 homepage: https://github.com/Impaktfull/flutter_snacky
 topics:
   - snackbar
