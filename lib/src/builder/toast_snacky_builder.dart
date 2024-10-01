@@ -14,12 +14,12 @@ class ToastSnackyBuilder extends SnackyBuilder {
   final BorderRadius borderRadius;
   final EdgeInsets margin;
   final EdgeInsets padding;
-  final Color Function(Snacky)? colorBuilder;
+  final Color Function(Snacky)? backgroundColorBuilder;
   final BoxBorder Function(Snacky)? borderBuilder;
   final TextStyle Function(Snacky, ToastSnackyTextType)? textStyleBuilder;
 
   const ToastSnackyBuilder({
-    this.colorBuilder,
+    this.backgroundColorBuilder,
     this.borderBuilder,
     this.textStyleBuilder,
     this.margin = const EdgeInsets.all(16),
@@ -52,7 +52,7 @@ class ToastSnackyBuilder extends SnackyBuilder {
 
           return Container(
             decoration: BoxDecoration(
-              color: const Color(0xFF404040),
+              color: _getBackgroundColor(snacky),
               borderRadius: borderRadius,
               boxShadow: const [
                 BoxShadow(
@@ -89,6 +89,13 @@ class ToastSnackyBuilder extends SnackyBuilder {
         },
       ),
     );
+  }
+
+  Color _getBackgroundColor(Snacky snacky) {
+    if (backgroundColorBuilder != null) {
+      return backgroundColorBuilder!.call(snacky);
+    }
+    return const Color(0xFF404040);
   }
 
   TextStyle _getTextStyle(Snacky snacky, ToastSnackyTextType textType) {

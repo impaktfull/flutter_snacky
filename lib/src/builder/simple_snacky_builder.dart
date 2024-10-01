@@ -16,13 +16,17 @@ class SimpleSnackyBuilder extends SnackyBuilder {
   final BorderRadius borderRadius;
   final EdgeInsets margin;
   final EdgeInsets padding;
-  final Color Function(Snacky)? colorBuilder;
+  final Color Function(Snacky)? backgroundColorBuilder;
+  final Color Function(Snacky)? iconColorBuilder;
+  final IconData? Function(Snacky)? iconBuilder;
   final BoxBorder Function(Snacky)? borderBuilder;
   final TextStyle Function(Snacky, SimpleSnackyTextType)? textStyleBuilder;
   final bool disableInkwell;
 
   const SimpleSnackyBuilder({
-    this.colorBuilder,
+    this.backgroundColorBuilder,
+    this.iconColorBuilder,
+    this.iconBuilder,
     this.borderBuilder,
     this.textStyleBuilder,
     this.margin = const EdgeInsets.all(16),
@@ -55,7 +59,7 @@ class SimpleSnackyBuilder extends SnackyBuilder {
           return Container(
             width: double.infinity,
             decoration: BoxDecoration(
-              color: _getColor(snacky),
+              color: _getBackgroundColor(snacky),
               border: _getBorder(snacky),
               borderRadius: borderRadius,
               boxShadow: const [
@@ -154,9 +158,9 @@ class SimpleSnackyBuilder extends SnackyBuilder {
     );
   }
 
-  Color _getColor(Snacky snacky) {
-    if (colorBuilder != null) {
-      return colorBuilder!.call(snacky);
+  Color _getBackgroundColor(Snacky snacky) {
+    if (backgroundColorBuilder != null) {
+      return backgroundColorBuilder!.call(snacky);
     }
     return Colors.white;
   }
@@ -172,6 +176,9 @@ class SimpleSnackyBuilder extends SnackyBuilder {
   }
 
   Color _getSnackyTypeColor(Snacky snacky) {
+    if (iconColorBuilder != null) {
+      return iconColorBuilder!.call(snacky);
+    }
     switch (snacky.type) {
       case SnackyType.success:
         return Colors.green;
@@ -200,6 +207,9 @@ class SimpleSnackyBuilder extends SnackyBuilder {
   }
 
   IconData? _getIcon(Snacky snacky) {
+    if (iconBuilder != null) {
+      return iconBuilder!.call(snacky);
+    }
     switch (snacky.type) {
       case SnackyType.success:
         return Icons.check_circle_outline;

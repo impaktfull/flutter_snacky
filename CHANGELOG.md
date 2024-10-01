@@ -3,6 +3,7 @@
 ## Feat
 
 - ToastSnackyBuilder is added
+- GradientSnackyBuilder is added
 - Simplified the example app
 
 ## Breaking
