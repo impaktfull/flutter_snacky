@@ -72,10 +72,16 @@ class SimpleSnackyBuilder extends SnackyBuilder {
                   snacky.leadingWidgetBuilder!.call(context, cancelableSnacky),
                   const SizedBox(width: 8),
                 ] else ...[
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: _getLeaderWidget(snacky),
-                  ),
+                  Builder(builder: (context) {
+                    final leadingIcon = _getLeaderWidget(snacky);
+                    if (leadingIcon == null) {
+                      return const SizedBox(width: 8);
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: leadingIcon,
+                    );
+                  }),
                 ],
                 Expanded(
                   child: Padding(
@@ -193,32 +199,28 @@ class SimpleSnackyBuilder extends SnackyBuilder {
     }
   }
 
-  IconData _getIcon(Snacky snacky) {
+  IconData? _getIcon(Snacky snacky) {
     switch (snacky.type) {
       case SnackyType.success:
-        return Icons.check_circle;
+        return Icons.check_circle_outline;
       case SnackyType.error:
-        return Icons.error;
+        return Icons.error_outline;
       case SnackyType.warning:
-        return Icons.error;
+        return Icons.warning_amber_outlined;
       case SnackyType.info:
-        return Icons.info;
+        return Icons.info_outline;
       case SnackyType.branded:
-        return Icons.info;
+        return Icons.info_outline;
     }
   }
 
-  Widget _getLeaderWidget(Snacky snacky) {
-    return Container(
-      decoration: BoxDecoration(
-        color: _getSnackyTypeColor(snacky),
-        shape: BoxShape.circle,
-      ),
-      child: Icon(
-        _getIcon(snacky),
-        color: Colors.white,
-        size: 24,
-      ),
+  Widget? _getLeaderWidget(Snacky snacky) {
+    final icon = _getIcon(snacky);
+    if (icon == null) return null;
+    return Icon(
+      icon,
+      color: _getSnackyTypeColor(snacky),
+      size: 24,
     );
   }
 }

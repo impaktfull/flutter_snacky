@@ -39,6 +39,7 @@ class BaseSnackyWidget extends StatelessWidget {
           child: Padding(
             padding: margin,
             child: Material(
+              color: Colors.transparent,
               child: Stack(
                 children: [
                   child,

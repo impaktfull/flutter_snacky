@@ -11,7 +11,7 @@ dependencies:
     sdk: flutter
   snacky:
     path: ../
-  impaktfull_ui: ^0.10.0
+  impaktfull_ui: ^0.11.0
 
 dev_dependencies:
   flutter_test:
@@ -25,4 +25,5 @@ dependency_overrides:
 flutter:
   uses-material-design: true
   assets:
+    - ../assets/icons/
     - ../assets/logo.png

@@ -1,3 +1,14 @@
+# 0.3.0
+
+## Feat
+
+- ToastSnackyBuilder is added
+- Simplified the example app
+
+## Breaking
+
+- Changed the leading icons for the SimpleSnackyBuilder
+
 # 0.2.5
 
 ## Fix
