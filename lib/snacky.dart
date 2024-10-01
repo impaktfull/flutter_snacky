@@ -6,6 +6,7 @@ export 'src/model/snacky.dart';
 export 'src/model/snacky_location.dart';
 export 'src/model/snacky_type.dart';
 export 'src/navigator/snacky_navigator_observer.dart';
-export 'src/transition/slide_transition.dart';
+export 'src/transition/snacky_slide_transition.dart';
 export 'src/widget/base_snacky_widget.dart';
 export 'src/widget/snacky_configurator_widget.dart';
+export 'src/widget/snacky_swipe_detector.dart';

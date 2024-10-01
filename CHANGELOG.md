@@ -1,3 +1,9 @@
+# 0.2.5
+
+## Fix
+
+- Yellow underline (because of missing `Material` widget)
+
 # 0.2.4
 
 ## CI

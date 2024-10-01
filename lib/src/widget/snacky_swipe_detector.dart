@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
 
-class SwipeDetector extends StatefulWidget {
+class SnackySwipeDetector extends StatefulWidget {
   final Widget child;
   final bool enabled;
   final AlignmentDirectional alignment;
   final VoidCallback onSwipe;
 
-  const SwipeDetector({
+  const SnackySwipeDetector({
     required this.child,
     required this.enabled,
     required this.alignment,
@@ -15,10 +15,10 @@ class SwipeDetector extends StatefulWidget {
   });
 
   @override
-  State<SwipeDetector> createState() => _SwipeDetectorState();
+  State<SnackySwipeDetector> createState() => _SnackySwipeDetectorState();
 }
 
-class _SwipeDetectorState extends State<SwipeDetector> {
+class _SnackySwipeDetectorState extends State<SnackySwipeDetector> {
   var _dragPositionY = 0.0;
   var _dragPositionStart = 0.0;
 
@@ -41,8 +41,7 @@ class _SwipeDetectorState extends State<SwipeDetector> {
           // Bottom notification
           widget.onSwipe();
         }
-        if (widget.alignment == AlignmentDirectional.topCenter &&
-            details.globalPosition.dy < _dragPositionY) {
+        if (widget.alignment == AlignmentDirectional.topCenter && details.globalPosition.dy < _dragPositionY) {
           widget.onSwipe();
         } else if (widget.alignment == AlignmentDirectional.bottomCenter &&
             details.globalPosition.dy > _dragPositionY) {
@@ -59,8 +58,7 @@ class _SwipeDetectorState extends State<SwipeDetector> {
           widget.onSwipe();
         } else if (start == 0) {
           // Center notification (do nothing)
-        } else if (start > 0 &&
-            details.globalPosition.dx > _dragPositionStart) {
+        } else if (start > 0 && details.globalPosition.dx > _dragPositionStart) {
           // End notification
           widget.onSwipe();
         }

@@ -6,12 +6,12 @@ import 'package:snacky/src/model/cancelable_snacky.dart';
 import 'package:snacky/src/model/snacky.dart';
 import 'package:snacky/src/model/snacky_location.dart';
 
-class SlideTransitionExample extends StatefulWidget {
+class SnackySlideTransition extends StatefulWidget {
   final Widget child;
   final CancelableSnacky cancelableSnacky;
   final SnackyController snackyController;
 
-  const SlideTransitionExample({
+  const SnackySlideTransition({
     required this.child,
     required this.cancelableSnacky,
     required this.snackyController,
@@ -19,10 +19,10 @@ class SlideTransitionExample extends StatefulWidget {
   });
 
   @override
-  State<SlideTransitionExample> createState() => _SlideTransitionExampleState();
+  State<SnackySlideTransition> createState() => _SnackySlideTransitionState();
 }
 
-class _SlideTransitionExampleState extends State<SlideTransitionExample>
+class _SnackySlideTransitionState extends State<SnackySlideTransition>
     with SingleTickerProviderStateMixin, CancelableSnackyListener {
   Timer? _timer;
 
@@ -49,11 +49,9 @@ class _SlideTransitionExampleState extends State<SlideTransitionExample>
       });
 
     // Animation
-    final beginX = snacky.location == SnackyLocation.topStart ||
-            snacky.location == SnackyLocation.bottomStart
+    final beginX = snacky.location == SnackyLocation.topStart || snacky.location == SnackyLocation.bottomStart
         ? -1
-        : snacky.location == SnackyLocation.topEnd ||
-                snacky.location == SnackyLocation.bottomEnd
+        : snacky.location == SnackyLocation.topEnd || snacky.location == SnackyLocation.bottomEnd
             ? 1
             : 0;
     final beginY = snacky.location == SnackyLocation.top

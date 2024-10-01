@@ -20,14 +20,11 @@ class SnackyConfiguratorWidget extends StatefulWidget {
   });
 
   @override
-  State<SnackyConfiguratorWidget> createState() =>
-      _SnackyConfiguratorWidgetState();
+  State<SnackyConfiguratorWidget> createState() => _SnackyConfiguratorWidgetState();
 }
 
-class _SnackyConfiguratorWidgetState extends State<SnackyConfiguratorWidget>
-    implements SnackyListener {
-  SnackyController get snackyController =>
-      widget.snackyController ?? SnackyController.instance;
+class _SnackyConfiguratorWidgetState extends State<SnackyConfiguratorWidget> implements SnackyListener {
+  SnackyController get snackyController => widget.snackyController ?? SnackyController.instance;
 
   @override
   void initState() {
@@ -46,16 +43,17 @@ class _SnackyConfiguratorWidgetState extends State<SnackyConfiguratorWidget>
 
   @override
   Widget buildSnacky(BuildContext context, CancelableSnacky activeSnacky) {
-    return Directionality(
-      textDirection: widget.textDirection,
-      child: Builder(
-        builder: (context) => Stack(
-          key: ValueKey(activeSnacky.hashCode),
-          alignment: activeSnacky.snacky.location.alignment,
-          children: [
-            widget.snackyBuilder.build(context, activeSnacky, snackyController),
-          ],
-        ),
+    return Builder(
+      builder: (context) => Stack(
+        key: ValueKey(activeSnacky.hashCode),
+        alignment: activeSnacky.snacky.location.alignment,
+        children: [
+          widget.snackyBuilder.build(
+            context,
+            activeSnacky,
+            snackyController,
+          ),
+        ],
       ),
     );
   }
@@ -74,8 +72,7 @@ class _SnackyConfiguratorWidgetState extends State<SnackyConfiguratorWidget>
 
     context.visitChildElements(visitor);
 
-    assert(navigator != null,
-        '''It looks like you are not using Navigator in your app.
+    assert(navigator != null, '''It looks like you are not using Navigator in your app.
          Do you wrapped you app widget like this?
          SnackyConfiguratorWidget(
            app: MaterialApp(
