@@ -49,9 +49,11 @@ class _SnackySlideTransitionState extends State<SnackySlideTransition>
       });
 
     // Animation
-    final beginX = snacky.location == SnackyLocation.topStart || snacky.location == SnackyLocation.bottomStart
+    final beginX = snacky.location == SnackyLocation.topStart ||
+            snacky.location == SnackyLocation.bottomStart
         ? -1
-        : snacky.location == SnackyLocation.topEnd || snacky.location == SnackyLocation.bottomEnd
+        : snacky.location == SnackyLocation.topEnd ||
+                snacky.location == SnackyLocation.bottomEnd
             ? 1
             : 0;
     final beginY = snacky.location == SnackyLocation.top

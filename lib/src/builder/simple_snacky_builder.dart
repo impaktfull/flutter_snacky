@@ -102,7 +102,8 @@ class SimpleSnackyBuilder extends SnackyBuilder {
                           ),
                         ],
                         if (snacky.bottomWidgetBuilder != null) ...[
-                          snacky.bottomWidgetBuilder!(context, cancelableSnacky),
+                          snacky.bottomWidgetBuilder!(
+                              context, cancelableSnacky),
                         ],
                       ],
                     ),
@@ -122,7 +123,8 @@ class SimpleSnackyBuilder extends SnackyBuilder {
                       padding: const EdgeInsets.all(8),
                       child: Icon(
                         Icons.close,
-                        color: _getTextStyle(snacky, SimpleSnackyTextType.title).color,
+                        color: _getTextStyle(snacky, SimpleSnackyTextType.title)
+                            .color,
                       ),
                     ),
                   ),
@@ -131,7 +133,8 @@ class SimpleSnackyBuilder extends SnackyBuilder {
                   const SizedBox(width: 8),
                   Icon(
                     Icons.keyboard_arrow_right,
-                    color: _getTextStyle(snacky, SimpleSnackyTextType.title).color,
+                    color:
+                        _getTextStyle(snacky, SimpleSnackyTextType.title).color,
                   ),
                   const SizedBox(width: 16),
                 ] else ...[
@@ -183,7 +186,8 @@ class SimpleSnackyBuilder extends SnackyBuilder {
     }
     switch (textType) {
       case SimpleSnackyTextType.title:
-        return const TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold);
+        return const TextStyle(
+            color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold);
       case SimpleSnackyTextType.subtitle:
         return const TextStyle(color: Colors.black, fontSize: 12);
     }

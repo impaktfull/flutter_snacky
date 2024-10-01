@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:snacky/snacky.dart';
+import 'package:impaktfull_ui/impaktfull_ui.dart';
 
 const colorAccent = Color(0xFF7D64F2);
 const colorPrimary = Color(0xFF1A1A1A);
@@ -45,8 +44,8 @@ class HomeScreen extends StatelessWidget {
             height: 50,
           ),
           const SizedBox(height: 16),
-          ExampleButton(
-            title: 'show success at the top of the screen',
+          ImpaktfullButton.accent(
+            label: 'show success at the top of the screen',
             onTap: () {
               const snacky = Snacky(
                 title: 'Top',
@@ -55,8 +54,8 @@ class HomeScreen extends StatelessWidget {
               SnackyController.instance.showMessage((context) => snacky);
             },
           ),
-          ExampleButton(
-            title: 'show error at the top of the screen',
+          ImpaktfullButton.accent(
+            label: 'show error at the top of the screen',
             onTap: () {
               const snacky = Snacky(
                 title: 'Top',
@@ -65,8 +64,8 @@ class HomeScreen extends StatelessWidget {
               SnackyController.instance.showMessage((context) => snacky);
             },
           ),
-          ExampleButton(
-            title: 'show warning at the top of the screen',
+          ImpaktfullButton.accent(
+            label: 'show warning at the top of the screen',
             onTap: () {
               const snacky = Snacky(
                 title: 'Top',
@@ -75,8 +74,8 @@ class HomeScreen extends StatelessWidget {
               SnackyController.instance.showMessage((context) => snacky);
             },
           ),
-          ExampleButton(
-            title: 'show info at the top of the screen',
+          ImpaktfullButton.accent(
+            label: 'show info at the top of the screen',
             onTap: () {
               const snacky = Snacky(
                 title: 'Top',
@@ -86,8 +85,8 @@ class HomeScreen extends StatelessWidget {
             },
           ),
           const SizedBox(height: 32),
-          ExampleButton(
-            title: 'show success at the bottom of the screen',
+          ImpaktfullButton.accent(
+            label: 'show success at the bottom of the screen',
             onTap: () {
               const snacky = Snacky(
                 title: 'Bottom',
@@ -97,8 +96,8 @@ class HomeScreen extends StatelessWidget {
               SnackyController.instance.showMessage((context) => snacky);
             },
           ),
-          ExampleButton(
-            title: 'show success that can be canceled',
+          ImpaktfullButton.accent(
+            label: 'show success that can be canceled',
             onTap: () {
               const snacky = Snacky(
                 title: 'Top (cancelable)',
@@ -108,8 +107,8 @@ class HomeScreen extends StatelessWidget {
               SnackyController.instance.showMessage((context) => snacky);
             },
           ),
-          ExampleButton(
-            title: 'show success that can be canceled by tap',
+          ImpaktfullButton.accent(
+            label: 'show success that can be canceled by tap',
             onTap: () {
               final snacky = Snacky(
                 title: 'Top (tap to cancel)',
@@ -119,8 +118,8 @@ class HomeScreen extends StatelessWidget {
               SnackyController.instance.showMessage((context) => snacky);
             },
           ),
-          ExampleButton(
-            title: 'show successs that will stay open untill closed',
+          ImpaktfullButton.accent(
+            label: 'show successs that will stay open untill closed',
             onTap: () {
               const snacky = Snacky(
                 title: 'Top (open untill closed/cancelled)',
@@ -131,8 +130,8 @@ class HomeScreen extends StatelessWidget {
               SnackyController.instance.showMessage((context) => snacky);
             },
           ),
-          ExampleButton(
-            title: 'show custom widget',
+          ImpaktfullButton.accent(
+            label: 'show custom widget',
             onTap: () {
               final snacky = Snacky.widget(
                 builder: (context, cancelabelSnacky) => Container(
@@ -145,72 +144,15 @@ class HomeScreen extends StatelessWidget {
               SnackyController.instance.showMessage((context) => snacky);
             },
           ),
-          ExampleButton.primary(
-            title: 'cancel all snackies',
+          ImpaktfullButton.primary(
+            label: 'cancel all snackies',
             onTap: () => SnackyController.instance.cancelAll(),
           ),
-          ExampleButton.primary(
-            title: 'cancel active snacky',
+          ImpaktfullButton.primary(
+            label: 'cancel active snacky',
             onTap: () => SnackyController.instance.cancelActiveSnacky(),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class ExampleButton extends StatelessWidget {
-  final String title;
-  final VoidCallback onTap;
-  final Color color;
-
-  const ExampleButton({
-    required this.title,
-    required this.onTap,
-    super.key,
-  }) : color = colorAccent;
-
-  const ExampleButton.primary({
-    required this.title,
-    required this.onTap,
-    super.key,
-  }) : color = colorPrimary;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(4),
-        child: Stack(
-          children: [
-            Container(
-              width: double.infinity,
-              color: color,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 12,
-              ),
-              child: Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Positioned.fill(
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: onTap,
-                  child: const ColoredBox(color: Colors.transparent),
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

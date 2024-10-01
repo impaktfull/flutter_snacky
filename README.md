@@ -49,6 +49,20 @@ final snacky = Snacky(
 SnackyController.instance.showMessage((context) => snacky);
 ```
 
+## Show a snacky with a custom widget
+
+```dart
+final snacky = Snacky.widget(
+  builder: (context, cancelableSnacky) => YourCustomSnackyWidget(),
+  showDuration: Duration(seconds: 3), // How long the snacky should be shown
+  transitionDuration: Duration(milliseconds: 300), // How long the transition should take
+  transitionCurve: Curves.easeInOut, // The curve of the transition
+  location: SnackyLocation
+      .top, // Where the snacky should be shown (SnackyLocation.top or SnackyLocation.bottom)
+);
+SnackyController.instance.showMessage((context) => snacky);
+```
+
 ## Cancel the active snacky
 
 ```dart

@@ -4,6 +4,10 @@
 
 - Yellow underline (because of missing `Material` widget)
 
+## Docs
+
+- Added documentation on the Snacky custom widget implementation
+
 # 0.2.4
 
 ## CI

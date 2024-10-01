@@ -41,7 +41,8 @@ class _SnackySwipeDetectorState extends State<SnackySwipeDetector> {
           // Bottom notification
           widget.onSwipe();
         }
-        if (widget.alignment == AlignmentDirectional.topCenter && details.globalPosition.dy < _dragPositionY) {
+        if (widget.alignment == AlignmentDirectional.topCenter &&
+            details.globalPosition.dy < _dragPositionY) {
           widget.onSwipe();
         } else if (widget.alignment == AlignmentDirectional.bottomCenter &&
             details.globalPosition.dy > _dragPositionY) {
@@ -58,7 +59,8 @@ class _SnackySwipeDetectorState extends State<SnackySwipeDetector> {
           widget.onSwipe();
         } else if (start == 0) {
           // Center notification (do nothing)
-        } else if (start > 0 && details.globalPosition.dx > _dragPositionStart) {
+        } else if (start > 0 &&
+            details.globalPosition.dx > _dragPositionStart) {
           // End notification
           widget.onSwipe();
         }
