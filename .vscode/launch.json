@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Example",
+            "name": "main.dart",
             "cwd": "example",
             "type": "dart",
             "program": "lib/main.dart"

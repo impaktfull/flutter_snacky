@@ -114,6 +114,17 @@ class SnackyExampleScreen extends StatelessWidget {
             },
           ),
           ImpaktfullButton.accent(
+            label: 'show successs at the top end of the screen',
+            onTap: () {
+              const snacky = Snacky(
+                title: 'Success (TopEnd)',
+                type: SnackyType.success,
+                location: SnackyLocation.topEnd,
+              );
+              controller.showMessage((context) => snacky);
+            },
+          ),
+          ImpaktfullButton.accent(
             label: 'show custom widget',
             onTap: () {
               final snacky = Snacky.widget(

@@ -16,7 +16,7 @@ class Snacky {
   final Duration showDuration;
   final Duration transitionDuration;
   final Curve transitionCurve;
-  final SnackyLocation location;
+  final SnackyLocation? location;
 
   final Widget Function(BuildContext, CancelableSnacky)? builder;
 
@@ -33,7 +33,7 @@ class Snacky {
     this.showDuration = const Duration(seconds: 4),
     this.transitionDuration = const Duration(milliseconds: 250),
     this.transitionCurve = Curves.easeInOut,
-    this.location = SnackyLocation.top,
+    this.location,
   }) : builder = null;
 
   const Snacky.widget({
@@ -41,7 +41,7 @@ class Snacky {
     this.showDuration = const Duration(seconds: 4),
     this.transitionDuration = const Duration(milliseconds: 250),
     this.transitionCurve = Curves.easeInOut,
-    this.location = SnackyLocation.top,
+    this.location,
   })  : title = '',
         type = SnackyType.info,
         subtitle = null,

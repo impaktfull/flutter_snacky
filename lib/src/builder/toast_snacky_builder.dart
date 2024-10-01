@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snacky/src/builder/snacky_builder.dart';
+import 'package:snacky/src/config/snacky_layout_config.dart';
 import 'package:snacky/src/controller/snacky_controller.dart';
 import 'package:snacky/src/model/cancelable_snacky.dart';
 import 'package:snacky/src/model/snacky.dart';
@@ -33,6 +34,7 @@ class ToastSnackyBuilder extends SnackyBuilder {
   @override
   Widget build(
     BuildContext context,
+    SnackyLayoutConfig layoutConfig,
     CancelableSnacky cancelableSnacky,
     SnackyController snackyController,
   ) {
@@ -44,50 +46,44 @@ class ToastSnackyBuilder extends SnackyBuilder {
       margin: margin,
       disableInkWell: true,
       borderRadius: borderRadius,
-      child: Builder(
-        builder: (context) {
-          if (customBuilder != null) {
-            return customBuilder(context, cancelableSnacky);
-          }
-
-          return Container(
-            decoration: BoxDecoration(
-              color: _getBackgroundColor(snacky),
-              borderRadius: borderRadius,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  offset: Offset(0, 2),
-                  blurRadius: 4,
-                ),
-              ],
-            ),
-            child: Padding(
-              padding: padding,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    snacky.title,
-                    style: _getTextStyle(snacky, ToastSnackyTextType.title),
-                    textAlign: TextAlign.center,
-                  ),
-                  if (snacky.subtitle != null) ...[
-                    const SizedBox(height: 4),
-                    Text(
-                      snacky.subtitle!,
-                      style:
-                          _getTextStyle(snacky, ToastSnackyTextType.subtitle),
-                      textAlign: TextAlign.center,
+      layoutConfig: layoutConfig,
+      customBuilder: customBuilder ??
+          (context, cancelableSnacky) => Container(
+                decoration: BoxDecoration(
+                  color: _getBackgroundColor(snacky),
+                  borderRadius: borderRadius,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0, 2),
+                      blurRadius: 4,
                     ),
                   ],
-                ],
+                ),
+                child: Padding(
+                  padding: padding,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        snacky.title,
+                        style: _getTextStyle(snacky, ToastSnackyTextType.title),
+                        textAlign: TextAlign.center,
+                      ),
+                      if (snacky.subtitle != null) ...[
+                        const SizedBox(height: 4),
+                        Text(
+                          snacky.subtitle!,
+                          style: _getTextStyle(
+                              snacky, ToastSnackyTextType.subtitle),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
               ),
-            ),
-          );
-        },
-      ),
     );
   }
 

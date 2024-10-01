@@ -79,6 +79,17 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
+          ImpaktfullButton.accent(
+            label: 'Layout Config tester',
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => SnackyExampleScreen(
+                  title: 'Layout Config',
+                  controller: layoutConfigSnackyController,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:snacky/src/builder/simple_snacky_builder.dart';
 import 'package:snacky/src/builder/snacky_builder.dart';
+import 'package:snacky/src/config/snacky_layout_config.dart';
 import 'package:snacky/src/controller/snacky_controller.dart';
 import 'package:snacky/src/controller/snacky_controller_listener.dart';
 import 'package:snacky/src/model/cancelable_snacky.dart';
@@ -10,12 +11,14 @@ class SnackyConfiguratorWidget extends StatefulWidget {
   final SnackyController? snackyController;
   final SnackyBuilder snackyBuilder;
   final TextDirection textDirection;
+  final SnackyLayoutConfig? layoutConfig;
 
   const SnackyConfiguratorWidget({
     required this.app,
     this.snackyController,
     this.snackyBuilder = const SimpleSnackyBuilder(),
     this.textDirection = TextDirection.ltr,
+    this.layoutConfig,
     super.key,
   });
 
@@ -28,9 +31,12 @@ class _SnackyConfiguratorWidgetState extends State<SnackyConfiguratorWidget>
     implements SnackyListener {
   SnackyController get snackyController =>
       widget.snackyController ?? SnackyController.instance;
+  SnackyLayoutConfig get layoutConfig =>
+      widget.layoutConfig ?? const SnackyLayoutConfig();
 
   @override
   void initState() {
+    layoutConfig.validate();
     snackyController.attach(this);
     super.initState();
   }
@@ -46,13 +52,16 @@ class _SnackyConfiguratorWidgetState extends State<SnackyConfiguratorWidget>
 
   @override
   Widget buildSnacky(BuildContext context, CancelableSnacky activeSnacky) {
+    final snackyLocation =
+        layoutConfig.getSnackyLocation(context, activeSnacky.snacky);
     return Builder(
       builder: (context) => Stack(
         key: ValueKey(activeSnacky.hashCode),
-        alignment: activeSnacky.snacky.location.alignment,
+        alignment: snackyLocation.alignment,
         children: [
           widget.snackyBuilder.build(
             context,
+            layoutConfig,
             activeSnacky,
             snackyController,
           ),

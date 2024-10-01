@@ -10,6 +10,7 @@ class SnackyController {
 
   final _snackies = <CancelableSnacky>[];
   final ValueNotifier<CancelableSnacky?> _activeSnacky = ValueNotifier(null);
+  OverlayEntry? _entry;
 
   SnackyListener? _listener;
 
@@ -42,6 +43,7 @@ class SnackyController {
           _listener?.buildSnacky(context, nextSnacky) ?? const SizedBox(),
     );
     _overlayState?.insert(entry);
+    _entry = entry;
   }
 
   void attach(SnackyListener listener) {
@@ -55,10 +57,14 @@ class SnackyController {
   void notifyListeners() => _listener?.notifyListeners();
 
   void _onSnackyRemoved() {
+    _entry?.remove();
+    _entry = null;
     _activeSnacky.value = null;
     notifyListeners();
     _scheduleNextMessage();
   }
 
-  void cancelActiveSnacky() => _activeSnacky.value?.cancel();
+  void cancelActiveSnacky() {
+    _activeSnacky.value?.cancel();
+  }
 }

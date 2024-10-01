@@ -8,11 +8,13 @@ import 'package:snacky/src/model/snacky_location.dart';
 
 class SnackySlideTransition extends StatefulWidget {
   final Widget child;
+  final SnackyLocation snackyLocation;
   final CancelableSnacky cancelableSnacky;
   final SnackyController snackyController;
 
   const SnackySlideTransition({
     required this.child,
+    required this.snackyLocation,
     required this.cancelableSnacky,
     required this.snackyController,
     super.key,
@@ -49,16 +51,16 @@ class _SnackySlideTransitionState extends State<SnackySlideTransition>
       });
 
     // Animation
-    final beginX = snacky.location == SnackyLocation.topStart ||
-            snacky.location == SnackyLocation.bottomStart
+    final beginX = widget.snackyLocation == SnackyLocation.topStart ||
+            widget.snackyLocation == SnackyLocation.bottomStart
         ? -1
-        : snacky.location == SnackyLocation.topEnd ||
-                snacky.location == SnackyLocation.bottomEnd
+        : widget.snackyLocation == SnackyLocation.topEnd ||
+                widget.snackyLocation == SnackyLocation.bottomEnd
             ? 1
             : 0;
-    final beginY = snacky.location == SnackyLocation.top
+    final beginY = widget.snackyLocation == SnackyLocation.top
         ? -1
-        : snacky.location == SnackyLocation.bottom
+        : widget.snackyLocation == SnackyLocation.bottom
             ? 1
             : 0;
     _offsetAnimation = Tween<Offset>(

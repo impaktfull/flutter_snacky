@@ -1,3 +1,20 @@
+# 0.4.0
+
+## Feat
+
+- Added layout config with SnackyLayoutConfig
+- Breakpoints support with SnackyLayoutBreakpointConfig
+- Default location support with SnackyLayoutBreakpointConfig
+
+## Breaking
+
+- Requires SnackyLayoutConfig to be passed to the building blocks
+- Snacky.location is now optional. null (defaults to SnackyLayoutBreakpointConfig.snackyLocation)
+
+## Fix
+
+- Snackies always stayed in the widgettree. (Fixed by using `OverlayEntry.remove()` function)
+
 # 0.3.0
 
 ## Feat

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snacky/src/builder/snacky_builder.dart';
+import 'package:snacky/src/config/snacky_layout_config.dart';
 import 'package:snacky/src/controller/snacky_controller.dart';
 import 'package:snacky/src/model/cancelable_snacky.dart';
 import 'package:snacky/src/model/snacky.dart';
@@ -40,6 +41,7 @@ class GradientSnackyBuilder extends SnackyBuilder {
   @override
   Widget build(
     BuildContext context,
+    SnackyLayoutConfig layoutConfig,
     CancelableSnacky cancelableSnacky,
     SnackyController snackyController,
   ) {
@@ -51,118 +53,116 @@ class GradientSnackyBuilder extends SnackyBuilder {
       margin: margin,
       disableInkWell: disableInkwell,
       borderRadius: borderRadius,
-      child: Builder(
-        builder: (context) {
-          if (customBuilder != null) {
-            return customBuilder(context, cancelableSnacky);
-          }
-          final backgroundColor = _getBackgroundColor(snacky);
-          return ClipRRect(
-            borderRadius: borderRadius,
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: backgroundColor,
-                border: _getBorder(snacky),
-                borderRadius: borderRadius,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    offset: Offset(0, 2),
-                    blurRadius: 4,
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  if (snacky.leadingWidgetBuilder != null) ...[
-                    snacky.leadingWidgetBuilder!
-                        .call(context, cancelableSnacky),
-                    const SizedBox(width: 8),
-                  ] else ...[
-                    Builder(builder: (context) {
-                      final leadingIcon =
-                          _getLeaderWidget(snacky, backgroundColor);
-                      if (leadingIcon == null) {
-                        return const SizedBox(width: 8);
-                      }
-                      return Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: leadingIcon,
-                      );
-                    }),
+      layoutConfig: layoutConfig,
+      customBuilder: customBuilder ??
+          (context, cancelableSnacky) {
+            final backgroundColor = _getBackgroundColor(snacky);
+            return ClipRRect(
+              borderRadius: borderRadius,
+              child: Container(
+                width: layoutConfig.getSnackyWidth(context),
+                decoration: BoxDecoration(
+                  color: backgroundColor,
+                  border: _getBorder(snacky),
+                  borderRadius: borderRadius,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0, 2),
+                      blurRadius: 4,
+                    ),
                   ],
-                  Expanded(
-                    child: Padding(
-                      padding: padding,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            snacky.title,
-                            style: _getTextStyle(
-                              snacky,
-                              GradientSnackyTextType.title,
-                            ),
-                          ),
-                          if (snacky.subtitle != null) ...[
-                            const SizedBox(height: 4),
+                ),
+                child: Row(
+                  children: [
+                    if (snacky.leadingWidgetBuilder != null) ...[
+                      snacky.leadingWidgetBuilder!
+                          .call(context, cancelableSnacky),
+                      const SizedBox(width: 8),
+                    ] else ...[
+                      Builder(builder: (context) {
+                        final leadingIcon =
+                            _getLeaderWidget(snacky, backgroundColor);
+                        if (leadingIcon == null) {
+                          return const SizedBox(width: 8);
+                        }
+                        return Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: leadingIcon,
+                        );
+                      }),
+                    ],
+                    Expanded(
+                      child: Padding(
+                        padding: padding,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
                             Text(
-                              snacky.subtitle!,
+                              snacky.title,
                               style: _getTextStyle(
                                 snacky,
-                                GradientSnackyTextType.subtitle,
+                                GradientSnackyTextType.title,
                               ),
                             ),
+                            if (snacky.subtitle != null) ...[
+                              const SizedBox(height: 4),
+                              Text(
+                                snacky.subtitle!,
+                                style: _getTextStyle(
+                                  snacky,
+                                  GradientSnackyTextType.subtitle,
+                                ),
+                              ),
+                            ],
+                            if (snacky.bottomWidgetBuilder != null) ...[
+                              snacky.bottomWidgetBuilder!(
+                                  context, cancelableSnacky),
+                            ],
                           ],
-                          if (snacky.bottomWidgetBuilder != null) ...[
-                            snacky.bottomWidgetBuilder!(
-                                context, cancelableSnacky),
-                          ],
-                        ],
-                      ),
-                    ),
-                  ),
-                  if (snacky.trailingWidgetBuilder != null) ...[
-                    const SizedBox(width: 8),
-                    snacky.trailingWidgetBuilder!
-                        .call(context, cancelableSnacky),
-                  ],
-                  if (snacky.canBeClosed) ...[
-                    const SizedBox(width: 8),
-                    TouchFeedback(
-                      borderRadius: BorderRadius.circular(999),
-                      onTap: () => cancelableSnacky.cancel(),
-                      disableInkWell: disableInkwell,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Icon(
-                          Icons.close,
-                          color: _getTextStyle(
-                                  snacky, GradientSnackyTextType.title)
-                              .color,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 8),
-                  ] else if (snacky.onTap != null) ...[
-                    const SizedBox(width: 8),
-                    Icon(
-                      Icons.keyboard_arrow_right,
-                      color: _getTextStyle(snacky, GradientSnackyTextType.title)
-                          .color,
-                    ),
-                    const SizedBox(width: 16),
-                  ] else ...[
-                    const SizedBox(width: 16),
+                    if (snacky.trailingWidgetBuilder != null) ...[
+                      const SizedBox(width: 8),
+                      snacky.trailingWidgetBuilder!
+                          .call(context, cancelableSnacky),
+                    ],
+                    if (snacky.canBeClosed) ...[
+                      const SizedBox(width: 8),
+                      TouchFeedback(
+                        borderRadius: BorderRadius.circular(999),
+                        onTap: () => cancelableSnacky.cancel(),
+                        disableInkWell: disableInkwell,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Icon(
+                            Icons.close,
+                            color: _getTextStyle(
+                                    snacky, GradientSnackyTextType.title)
+                                .color,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                    ] else if (snacky.onTap != null) ...[
+                      const SizedBox(width: 8),
+                      Icon(
+                        Icons.keyboard_arrow_right,
+                        color:
+                            _getTextStyle(snacky, GradientSnackyTextType.title)
+                                .color,
+                      ),
+                      const SizedBox(width: 16),
+                    ] else ...[
+                      const SizedBox(width: 16),
+                    ],
                   ],
-                ],
+                ),
               ),
-            ),
-          );
-        },
-      ),
+            );
+          },
     );
   }
 
@@ -170,7 +170,7 @@ class GradientSnackyBuilder extends SnackyBuilder {
     if (backgroundColorBuilder != null) {
       return backgroundColorBuilder!.call(snacky);
     }
-    return const Color(0xFF242c32);
+    return const Color(0xFF1A1A1A);
   }
 
   BoxBorder? _getBorder(Snacky snacky) {
@@ -240,7 +240,7 @@ class GradientSnackyBuilder extends SnackyBuilder {
         Positioned(
           left: -100,
           child: Opacity(
-            opacity: 0.15,
+            opacity: 0.2,
             child: Container(
               width: 200,
               height: 200,

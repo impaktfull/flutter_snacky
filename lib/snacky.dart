@@ -2,6 +2,8 @@ export 'src/builder/gradient_snacky_builder.dart';
 export 'src/builder/simple_snacky_builder.dart';
 export 'src/builder/toast_snacky_builder.dart';
 export 'src/builder/snacky_builder.dart';
+export 'src/config/snacky_layout_breakpoint_config.dart';
+export 'src/config/snacky_layout_config.dart';
 export 'src/controller/snacky_controller.dart';
 export 'src/model/cancelable_snacky.dart';
 export 'src/model/snacky.dart';

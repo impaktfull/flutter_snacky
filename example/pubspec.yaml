@@ -11,7 +11,7 @@ dependencies:
     sdk: flutter
   snacky:
     path: ../
-  impaktfull_ui: ^0.11.0
+  impaktfull_ui: ^0.11.2
 
 dev_dependencies:
   flutter_test:
