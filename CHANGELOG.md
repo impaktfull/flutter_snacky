@@ -1,6 +1,12 @@
+# 0.5.3
+
+## Docs
+
+- improved readme docs
+
 # 0.5.2
 
-## Fix
+## Docs
 
 - README.md updated to have the links to the web demo
 
