@@ -1,3 +1,9 @@
+# 0.5.2
+
+## Fix
+
+- README.md updated to have the links to the web demo
+
 # 0.5.1
 
 ## Fix

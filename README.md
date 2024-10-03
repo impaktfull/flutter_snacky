@@ -1,6 +1,7 @@
 ![Logo](https://raw.githubusercontent.com/impaktfull/flutter_snacky/master/assets/logo.svg)
 
 [![pub package](https://img.shields.io/pub/v/snacky.svg)](https://pub.dartlang.org/packages/snacky)
+[![Live Demo](https://github.com/impaktfull/flutter_snacky/actions/workflows/publish_to_githubpages.yaml/badge.svg)](https://example.snacky.opensource.impaktfull.com)
 
 # You deserve a simple snack!
 
@@ -9,6 +10,7 @@ and an easy to use API.
 
 # Demo
 
+[Live Web demo](https://example.snacky.opensource.impaktfull.com)
 https://github.com/Impaktfull/flutter_snacky/assets/21172855/daf176b6-77b1-44d4-a065-5e625d0ee50c
 
 # Usage
