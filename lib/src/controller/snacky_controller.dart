@@ -4,8 +4,6 @@ import 'package:snacky/src/model/cancelable_snacky.dart';
 import 'package:snacky/src/model/snacky.dart';
 
 class SnackyController {
-  // static const _showDuration = Duration(milliseconds: 250);
-  // static const _hideDuration = Duration(milliseconds: 250);
   static final instance = SnackyController();
 
   final _snackies = <CancelableSnacky>[];
@@ -39,8 +37,7 @@ class SnackyController {
     _activeSnacky.value = nextSnacky;
     notifyListeners();
     final entry = OverlayEntry(
-      builder: (context) =>
-          _listener?.buildSnacky(context, nextSnacky) ?? const SizedBox(),
+      builder: (context) => _listener?.buildSnacky(context, nextSnacky) ?? const SizedBox(),
     );
     _overlayState?.insert(entry);
     _entry = entry;

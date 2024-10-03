@@ -1,3 +1,11 @@
+# 0.5.0
+
+## Feat
+
+- Deploy to web github action
+- Calculate the duration of a snacky based on the title & subtitle
+- Expose SnackyDurationUtil so other people can also use the calculation
+
 # 0.4.0
 
 ## Feat
