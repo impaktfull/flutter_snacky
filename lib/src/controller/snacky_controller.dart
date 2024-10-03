@@ -37,7 +37,8 @@ class SnackyController {
     _activeSnacky.value = nextSnacky;
     notifyListeners();
     final entry = OverlayEntry(
-      builder: (context) => _listener?.buildSnacky(context, nextSnacky) ?? const SizedBox(),
+      builder: (context) =>
+          _listener?.buildSnacky(context, nextSnacky) ?? const SizedBox(),
     );
     _overlayState?.insert(entry);
     _entry = entry;
