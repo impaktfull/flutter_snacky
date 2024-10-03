@@ -1,4 +1,4 @@
-name: Deploy to github pages
+name: Publish to github pages
 
 on:
   push:
@@ -22,11 +22,16 @@ jobs:
       - uses: subosito/flutter-action@v2
       - run: flutter packages get
       - run: dart analyze
+      - run: flutter packages get
+        working-directory: ./example
+      - run: dart analyze
+        working-directory: ./example
       - run: flutter build web
+        working-directory: ./example
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: "./build/web"
+          path: "./example/build/web"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1

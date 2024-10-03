@@ -1,3 +1,9 @@
+# 0.5.1
+
+## Fix
+
+- Deploy to web github action
+
 # 0.5.0
 
 ## Feat
