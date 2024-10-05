@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return ImpaktfullThemeConfiguratorWidget(
       child: ExampleSnackyConfigurator(
         child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Snacky',
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: colorAccent),
             useMaterial3: true,

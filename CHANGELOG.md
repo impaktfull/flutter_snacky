@@ -1,3 +1,9 @@
+# 0.5.5
+
+## Fix
+
+- Example app name
+
 # 0.5.4
 
 ## Fix
