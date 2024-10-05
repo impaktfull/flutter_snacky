@@ -1,3 +1,9 @@
+# 0.5.4
+
+## Fix
+
+- Example name & app icons
+
 # 0.5.3
 
 ## Docs
