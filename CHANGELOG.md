@@ -1,3 +1,9 @@
+# 0.5.6
+
+## Fix
+
+- layout config `width`
+
 # 0.5.5
 
 ## Fix
