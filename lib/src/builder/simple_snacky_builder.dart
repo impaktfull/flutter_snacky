@@ -51,12 +51,12 @@ class SimpleSnackyBuilder extends SnackyBuilder {
       cancelableSnacky: cancelableSnacky,
       snackyController: snackyController,
       margin: margin,
+      width: layoutConfig.getSnackyWidth(context),
       disableInkWell: disableInkwell,
       borderRadius: borderRadius,
       layoutConfig: layoutConfig,
       customBuilder: customBuilder ??
           (context, cancelableSnacky) => Container(
-                width: layoutConfig.getSnackyWidth(context),
                 decoration: BoxDecoration(
                   color: _getBackgroundColor(snacky),
                   border: _getBorder(snacky),

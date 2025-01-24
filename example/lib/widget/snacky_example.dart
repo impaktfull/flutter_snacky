@@ -102,7 +102,7 @@ class SnackyExampleScreen extends StatelessWidget {
             },
           ),
           ImpaktfullButton.accent(
-            label: 'show successs that will stay open untill closed',
+            label: 'show success that will stay open untill closed',
             onTap: () {
               const snacky = Snacky(
                 title: 'Success (Top - open untill closed/cancelled)',
@@ -114,7 +114,7 @@ class SnackyExampleScreen extends StatelessWidget {
             },
           ),
           ImpaktfullButton.accent(
-            label: 'show successs at the top end of the screen',
+            label: 'show success at the top end of the screen',
             onTap: () {
               const snacky = Snacky(
                 title: 'Success (TopEnd)',

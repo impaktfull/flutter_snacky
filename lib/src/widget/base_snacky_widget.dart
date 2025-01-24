@@ -10,6 +10,7 @@ class BaseSnackyWidget extends StatelessWidget {
   final CancelableSnacky cancelableSnacky;
   final SnackyController snackyController;
   final EdgeInsets margin;
+  final double? width;
   final BorderRadius borderRadius;
   final bool disableInkWell;
   final SnackyLayoutConfig layoutConfig;
@@ -21,6 +22,7 @@ class BaseSnackyWidget extends StatelessWidget {
     required this.layoutConfig,
     this.borderRadius = BorderRadius.zero,
     this.margin = const EdgeInsets.all(16),
+    this.width,
     this.disableInkWell = false,
     this.customBuilder,
     super.key,
@@ -41,8 +43,9 @@ class BaseSnackyWidget extends StatelessWidget {
           enabled: cancelableSnacky.isNotCancelled,
           alignment: location.alignment,
           onSwipe: () => cancelableSnacky.cancel(),
-          child: Padding(
+          child: Container(
             padding: margin,
+            width: width,
             child: Material(
               color: Colors.transparent,
               child: Stack(

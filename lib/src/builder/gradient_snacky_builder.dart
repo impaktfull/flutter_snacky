@@ -51,6 +51,7 @@ class GradientSnackyBuilder extends SnackyBuilder {
       cancelableSnacky: cancelableSnacky,
       snackyController: snackyController,
       margin: margin,
+      width: layoutConfig.getSnackyWidth(context),
       disableInkWell: disableInkwell,
       borderRadius: borderRadius,
       layoutConfig: layoutConfig,
@@ -60,7 +61,6 @@ class GradientSnackyBuilder extends SnackyBuilder {
             return ClipRRect(
               borderRadius: borderRadius,
               child: Container(
-                width: layoutConfig.getSnackyWidth(context),
                 decoration: BoxDecoration(
                   color: backgroundColor,
                   border: _getBorder(snacky),
