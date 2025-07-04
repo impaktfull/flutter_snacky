@@ -9,7 +9,7 @@ import 'package:snacky/src/widget/touch_feedback.dart';
 class BaseSnackyWidget extends StatelessWidget {
   final CancelableSnacky cancelableSnacky;
   final SnackyController snackyController;
-  final EdgeInsets margin;
+  final EdgeInsetsGeometry margin;
   final double? width;
   final BorderRadius borderRadius;
   final bool disableInkWell;

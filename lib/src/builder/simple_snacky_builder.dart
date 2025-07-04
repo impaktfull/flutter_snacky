@@ -15,8 +15,8 @@ enum SimpleSnackyTextType {
 
 class SimpleSnackyBuilder extends SnackyBuilder {
   final BorderRadius borderRadius;
-  final EdgeInsets margin;
-  final EdgeInsets padding;
+  final EdgeInsetsGeometry margin;
+  final EdgeInsetsGeometry padding;
   final Color Function(Snacky)? backgroundColorBuilder;
   final Color Function(Snacky)? iconColorBuilder;
   final IconData? Function(Snacky)? iconBuilder;
@@ -54,7 +54,7 @@ class SimpleSnackyBuilder extends SnackyBuilder {
     return BaseSnackyWidget(
       cancelableSnacky: cancelableSnacky,
       snackyController: snackyController,
-      margin: margin,
+      margin: snacky.margin ?? margin,
       width: layoutConfig.getSnackyWidth(context),
       disableInkWell: disableInkwell,
       borderRadius: borderRadius,

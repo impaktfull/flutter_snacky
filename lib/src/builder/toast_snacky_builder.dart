@@ -13,8 +13,8 @@ enum ToastSnackyTextType {
 
 class ToastSnackyBuilder extends SnackyBuilder {
   final BorderRadius borderRadius;
-  final EdgeInsets margin;
-  final EdgeInsets padding;
+  final EdgeInsetsGeometry margin;
+  final EdgeInsetsGeometry padding;
   final Color Function(Snacky)? backgroundColorBuilder;
   final BoxBorder Function(Snacky)? borderBuilder;
   final TextStyle Function(Snacky, ToastSnackyTextType)? textStyleBuilder;
@@ -43,7 +43,7 @@ class ToastSnackyBuilder extends SnackyBuilder {
     return BaseSnackyWidget(
       cancelableSnacky: cancelableSnacky,
       snackyController: snackyController,
-      margin: margin,
+      margin: snacky.margin ?? margin,
       disableInkWell: true,
       borderRadius: borderRadius,
       layoutConfig: layoutConfig,

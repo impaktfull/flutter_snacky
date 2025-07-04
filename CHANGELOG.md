@@ -1,3 +1,9 @@
+# 0.7.0
+
+## Feat
+
+- Added `margin` to `Snacky`
+
 # 0.6.1 - 0.6.2
 
 ## Fix

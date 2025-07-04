@@ -20,6 +20,7 @@ class Snacky {
   final SnackyLocation? location;
 
   final Widget Function(BuildContext, CancelableSnacky)? builder;
+  final EdgeInsetsGeometry? margin;
 
   /// If null the `showDuration` will be calculated based on the length of the title and subtitle
   Duration get showDuration {
@@ -40,6 +41,7 @@ class Snacky {
     Duration? showDuration,
     this.transitionDuration = const Duration(milliseconds: 250),
     this.transitionCurve = Curves.easeInOut,
+    this.margin,
     this.location,
   })  : builder = null,
         _showDuration = showDuration;
@@ -49,6 +51,7 @@ class Snacky {
     Duration? showDuration,
     this.transitionDuration = const Duration(milliseconds: 250),
     this.transitionCurve = Curves.easeInOut,
+    this.margin,
     this.location,
   })  : title = '',
         _showDuration = showDuration,
