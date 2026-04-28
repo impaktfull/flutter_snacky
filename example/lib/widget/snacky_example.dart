@@ -156,7 +156,8 @@ class SnackyExampleScreen extends StatelessWidget {
                 location: SnackyLocation.bottom,
                 canBeClosed: true,
                 openUntillClosed: true,
-                padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+                padding:
+                    const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
               );
               controller.showMessage((context) => snacky);
             },
