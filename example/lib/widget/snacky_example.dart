@@ -141,6 +141,26 @@ class SnackyExampleScreen extends StatelessWidget {
               controller.showMessage((context) => snacky);
             },
           ),
+          ImpaktfullButton.accent(
+            label: 'show custom widget that will still open until closed',
+            onTap: () {
+              final snacky = Snacky.widget(
+                builder: (context, cancelabelSnacky) => Container(
+                  color: const Color(0xFF7D64F2),
+                  padding: const EdgeInsets.all(16),
+                  child: const Text(
+                    'This is a custom widget',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                location: SnackyLocation.bottom,
+                canBeClosed: true,
+                openUntillClosed: true,
+                padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+              );
+              controller.showMessage((context) => snacky);
+            },
+          ),
           ImpaktfullButton.primary(
             label: 'cancel all snackies',
             onTap: () => controller.cancelAll(),
