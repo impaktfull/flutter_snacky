@@ -55,17 +55,27 @@ SnackyController.instance.showMessage((context) => snacky);
 
 ## Show a snacky with a custom widget
 
+When you need full control over the visual presentation, use `Snacky.widget` and provide your own widget via the `builder`. The builder receives a `CancelableSnacky` that you can call to dismiss the snacky from inside your widget (e.g. on a custom close button).
+
 ```dart
 final snacky = Snacky.widget(
-  builder: (context, cancelableSnacky) => YourCustomSnackyWidget(),
+  // Your custom widget. Use `cancelableSnacky.cancel()` to dismiss it from within.
+  builder: (context, cancelableSnacky) => YourCustomSnackyWidget(
+    onClose: cancelableSnacky.cancel,
+  ),
   showDuration: Duration(seconds: 3), // How long the snacky should be shown
   transitionDuration: Duration(milliseconds: 300), // How long the transition should take
   transitionCurve: Curves.easeInOut, // The curve of the transition
-  location: SnackyLocation
-      .top, // Where the snacky should be shown (SnackyLocation.top or SnackyLocation.bottom)
+  location: SnackyLocation.top, // Where the snacky should be shown (SnackyLocation.top or SnackyLocation.bottom)
+  openUntillClosed: false, // If the snacky should stay open until cancelled (ignores showDuration)
+  canBeClosed: true, // If the snacky should be dismissible (e.g. via swipe)
+  margin: EdgeInsets.all(16), // Margin around the snacky (outside of its safe area)
+  padding: EdgeInsets.symmetric(horizontal: 16), // Padding applied inside the safe area, useful to position above a bottom navigation bar
 );
 SnackyController.instance.showMessage((context) => snacky);
 ```
+
+> Tip: use `padding` to lift a bottom-located snacky above a `BottomNavigationBar` (e.g. `EdgeInsets.only(bottom: kBottomNavigationBarHeight)`), and `margin` for the spacing around the widget itself.
 
 ## Cancel the active snacky
 
