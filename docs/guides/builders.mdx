@@ -142,12 +142,87 @@ class MySnackyBuilder extends SnackyBuilder {
 }
 ```
 
+Returning a raw widget like this works, but you then own *everything* — there's
+no slide-in animation, no safe-area handling, no swipe-to-dismiss, and no tap
+handling. In almost every case you want those behaviors, and `BaseSnackyWidget`
+gives them to you for free.
+
+## Building on `BaseSnackyWidget`
+
+`BaseSnackyWidget` is the shared foundation that **every built-in builder uses
+internally**. It wires up the framework behaviors and then delegates the actual
+visual content to a `customBuilder` callback, so you only write the part that
+makes your snacky look the way you want:
+
+```dart
+class MySnackyBuilder extends SnackyBuilder {
+  const MySnackyBuilder();
+
+  @override
+  Widget build(
+    BuildContext context,
+    SnackyLayoutConfig layoutConfig,
+    CancelableSnacky cancelableSnacky,
+    SnackyController snackyController,
+  ) {
+    final snacky = cancelableSnacky.snacky;
+    return BaseSnackyWidget(
+      cancelableSnacky: cancelableSnacky,
+      snackyController: snackyController,
+      layoutConfig: layoutConfig,
+      borderRadius: BorderRadius.circular(12),
+      margin: const EdgeInsets.all(16),
+      // Only describe how the content looks — the base handles the rest.
+      customBuilder: (context, cancelableSnacky) => Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        padding: const EdgeInsets.all(16),
+        child: Text(snacky.title),
+      ),
+    );
+  }
+}
+```
+
+This is exactly how `SimpleSnackyBuilder`, `ToastSnackyBuilder`, and
+`GradientSnackyBuilder` are implemented — they pass their card/pill UI as the
+`customBuilder` and let `BaseSnackyWidget` do the heavy lifting.
+
+### What `BaseSnackyWidget` handles for you
+
+| Behavior            | Provided by                                                        |
+| ------------------- | ------------------------------------------------------------------ |
+| Slide in/out animation | `SnackySlideTransition`, driven by the controller & location    |
+| Safe-area insets    | `SafeArea`, applied on the side the snacky is anchored to          |
+| Swipe-to-dismiss    | `SnackySwipeDetector`, calls `cancelableSnacky.cancel()`           |
+| Tap handling        | A `TouchFeedback` overlay when `snacky.onTap` is set               |
+| Sizing & spacing    | `margin` (padding around the snacky) and optional fixed `width`    |
+
+### Parameters
+
+| Parameter          | Type                                              | Description                                                                 |
+| ------------------ | ------------------------------------------------- | --------------------------------------------------------------------------- |
+| `cancelableSnacky` | `CancelableSnacky`                                | The snacky being shown; pass through from `build`.                          |
+| `snackyController` | `SnackyController`                                | Drives the transition; pass through from `build`.                           |
+| `layoutConfig`     | `SnackyLayoutConfig`                              | Resolves the on-screen location/alignment; pass through from `build`.       |
+| `customBuilder`    | `Widget Function(BuildContext, CancelableSnacky)` | Your visual content. **Required in practice** — this is what gets rendered. |
+| `borderRadius`     | `BorderRadius`                                    | Used for the tap feedback ripple. Defaults to `BorderRadius.zero`.          |
+| `margin`           | `EdgeInsetsGeometry`                              | Padding around the snacky. Defaults to `EdgeInsets.all(16)`.                |
+| `width`            | `double?`                                         | Optional fixed width; otherwise sizes to content/constraints.              |
+| `disableInkWell`   | `bool`                                            | Disable the ink ripple on tap (use solid feedback instead). Defaults `false`.|
+
 <Info>
-The built-in builders compose a shared `BaseSnackyWidget` that wires up the
-slide transition, safe area, swipe-to-dismiss, and tap handling. If you want
-those behaviors in a custom builder, the simplest path is often to keep the
-built-in builder and use a per-message [`Snacky.widget`](/guides/custom-widgets)
-instead.
+`borderRadius` is only used for the tap-feedback ripple — it does **not** clip
+your content. Apply the same radius inside your `customBuilder` (e.g. on a
+`Container` decoration) so the ripple matches the visible shape.
+</Info>
+
+<Info>
+If you only need a fully custom look for a *single* message rather than a new
+global style, reach for a per-message [`Snacky.widget`](/guides/custom-widgets)
+instead of writing a builder.
 </Info>
 
 ## Using multiple builders at once

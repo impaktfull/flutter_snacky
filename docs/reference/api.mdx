@@ -122,7 +122,25 @@ All implement `SnackyBuilder`:
   `padding`, `borderRadius`.
 
 Write a custom one by extending `SnackyBuilder` and implementing
-`build(context, layoutConfig, cancelableSnacky, snackyController)`.
+`build(context, layoutConfig, cancelableSnacky, snackyController)`. Wrap your
+content in `BaseSnackyWidget` to inherit the framework behaviors.
+
+## BaseSnackyWidget
+
+The shared foundation used by every built-in builder. It provides the slide
+transition, safe area, swipe-to-dismiss, and tap handling, and renders your
+content via `customBuilder`. See [Builders & Theming](/guides/builders#building-on-basesnackywidget).
+
+| Parameter          | Type                                              | Default               |
+| ------------------ | ------------------------------------------------- | --------------------- |
+| `cancelableSnacky` | `CancelableSnacky`                                | —                     |
+| `snackyController` | `SnackyController`                                | —                     |
+| `layoutConfig`     | `SnackyLayoutConfig`                              | —                     |
+| `customBuilder`    | `Widget Function(BuildContext, CancelableSnacky)` | —                     |
+| `borderRadius`     | `BorderRadius`                                    | `BorderRadius.zero`   |
+| `margin`           | `EdgeInsetsGeometry`                              | `EdgeInsets.all(16)`  |
+| `width`            | `double?`                                         | `null`                |
+| `disableInkWell`   | `bool`                                            | `false`               |
 
 ## CancelableSnacky
 
