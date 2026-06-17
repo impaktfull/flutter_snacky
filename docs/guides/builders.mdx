@@ -1,0 +1,178 @@
+---
+title: Builders & Theming
+description: Change the global look of structured snackies with built-in builders, or write your own SnackyBuilder.
+---
+
+A **builder** controls how structured `Snacky` messages (title, subtitle, type)
+are turned into widgets. You set one builder per `SnackyConfiguratorWidget`, and
+it styles every snacky shown through that configurator's controller.
+
+```dart
+SnackyConfiguratorWidget(
+  snackyBuilder: const ToastSnackyBuilder(),
+  app: MaterialApp(/* ... */),
+);
+```
+
+If you don't set one, Snacky uses `SimpleSnackyBuilder()`.
+
+<Info>
+This is separate from `Snacky.widget`. A builder styles the data-driven `Snacky`
+model; `Snacky.widget` lets a single message render a fully custom widget. See
+[Architecture](/concepts/architecture#builder-decoupled-from-message) for why
+the two are decoupled.
+</Info>
+
+## Built-in builders
+
+### SimpleSnackyBuilder (default)
+
+A card with a leading type icon, title/subtitle, optional trailing/close widget,
+and a drop shadow. Highly configurable:
+
+```dart
+SnackyConfiguratorWidget(
+  snackyBuilder: SimpleSnackyBuilder(
+    borderRadius: BorderRadius.circular(8),
+    backgroundColorBuilder: (snacky) => Colors.white,
+    iconColorBuilder: (snacky) => Colors.purple,
+    iconBuilder: (snacky) => Icons.notifications,
+    borderBuilder: (snacky) => Border.all(color: Colors.grey.shade300),
+    textStyleBuilder: (snacky, textType) => textType == SimpleSnackyTextType.title
+        ? const TextStyle(fontWeight: FontWeight.bold, color: Colors.black)
+        : const TextStyle(color: Colors.black54),
+    closeIconBuilder: (snacky) => Icons.close,
+    shadowBuilder: (snacky) => const [BoxShadow(color: Colors.black12, blurRadius: 4)],
+    disableInkwell: false,
+    margin: const EdgeInsets.all(16),
+    padding: const EdgeInsets.symmetric(vertical: 16),
+  ),
+  app: MaterialApp(/* ... */),
+);
+```
+
+Every `*Builder` callback receives the `Snacky` so you can vary styling by type.
+
+### ToastSnackyBuilder
+
+A compact, centered, pill-shaped toast. Good for short confirmations:
+
+```dart
+SnackyConfiguratorWidget(
+  snackyBuilder: ToastSnackyBuilder(
+    borderRadius: const BorderRadius.all(Radius.circular(24)),
+    backgroundColorBuilder: (snacky) => const Color(0xFF404040),
+    borderBuilder: (snacky) => null,
+    textStyleBuilder: (snacky, textType) => textType == ToastSnackyTextType.title
+        ? const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)
+        : const TextStyle(color: Colors.white70),
+  ),
+  app: MaterialApp(/* ... */),
+);
+```
+
+<Info>
+The toast builder renders only the title and subtitle (centered). It does not
+render leading/trailing/bottom widgets or a close button.
+</Info>
+
+### GradientSnackyBuilder
+
+Like the simple builder, but with a subtle radial gradient glow behind the type
+icon on a dark surface:
+
+```dart
+SnackyConfiguratorWidget(
+  snackyBuilder: GradientSnackyBuilder(
+    borderRadius: BorderRadius.circular(12),
+    backgroundColorBuilder: (snacky) => const Color(0xFF1A1A1A),
+    iconColorBuilder: (snacky) => Colors.white,
+    iconBuilder: (snacky) => Icons.bolt,
+    textStyleBuilder: (snacky, textType) =>
+        const TextStyle(color: Colors.white),
+  ),
+  app: MaterialApp(/* ... */),
+);
+```
+
+## Type colors & icons
+
+When you don't override `iconColorBuilder`/`iconBuilder`, the built-in builders
+apply per-type defaults:
+
+| Type      | Color (simple/gradient)      |
+| --------- | ---------------------------- |
+| `success` | green                        |
+| `error`   | red                          |
+| `warning` | orange                       |
+| `info`    | blue                         |
+| `branded` | `#7D64F2` (impaktfull purple)|
+
+## Writing your own builder
+
+Implement `SnackyBuilder` and return any widget you like. You receive the layout
+config, the `CancelableSnacky`, and the controller:
+
+```dart
+class MySnackyBuilder extends SnackyBuilder {
+  const MySnackyBuilder();
+
+  @override
+  Widget build(
+    BuildContext context,
+    SnackyLayoutConfig layoutConfig,
+    CancelableSnacky cancelableSnacky,
+    SnackyController snackyController,
+  ) {
+    final snacky = cancelableSnacky.snacky;
+    return Align(
+      alignment: layoutConfig.getSnackyLocation(context, snacky).alignment,
+      child: Material(
+        child: ListTile(
+          title: Text(snacky.title),
+          subtitle: snacky.subtitle == null ? null : Text(snacky.subtitle!),
+          trailing: IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: cancelableSnacky.cancel,
+          ),
+        ),
+      ),
+    );
+  }
+}
+```
+
+<Info>
+The built-in builders compose a shared `BaseSnackyWidget` that wires up the
+slide transition, safe area, swipe-to-dismiss, and tap handling. If you want
+those behaviors in a custom builder, the simplest path is often to keep the
+built-in builder and use a per-message [`Snacky.widget`](/guides/custom-widgets)
+instead.
+</Info>
+
+## Using multiple builders at once
+
+Because each `SnackyConfiguratorWidget` has its own builder and (optionally) its
+own controller, you can nest configurators to support several looks in one app.
+Show through the matching controller to get the matching style:
+
+```dart
+final toastController = SnackyController();
+
+SnackyConfiguratorWidget(
+  // default controller → simple look
+  snackyBuilder: const SimpleSnackyBuilder(),
+  app: SnackyConfiguratorWidget(
+    snackyBuilder: const ToastSnackyBuilder(),
+    snackyController: toastController,
+    app: MaterialApp(/* ... */),
+  ),
+);
+
+// Simple look:
+SnackyController.instance.showMessage((context) => const Snacky(title: 'Hi'));
+// Toast look:
+toastController.showMessage((context) => const Snacky(title: 'Quick toast'));
+```
+
+See [Queue & Controller](/guides/controller) for more on custom controllers.

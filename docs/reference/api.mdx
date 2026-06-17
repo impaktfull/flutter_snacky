@@ -1,0 +1,148 @@
+---
+title: API Reference
+description: A reference of Snacky's public API surface.
+---
+
+This page summarizes the public API exported from `package:snacky/snacky.dart`.
+For the exhaustive, auto-generated reference, see the
+[API docs on pub.dev](https://pub.dev/documentation/snacky/latest/).
+
+## Snacky
+
+The message model. Two constructors:
+
+### `Snacky(...)` — structured
+
+| Parameter            | Type                                                 | Default            |
+| -------------------- | ---------------------------------------------------- | ------------------ |
+| `title`              | `String` (required)                                  | —                  |
+| `type`               | `SnackyType`                                          | `SnackyType.info`  |
+| `subtitle`           | `String?`                                            | `null`             |
+| `leadingWidgetBuilder`  | `Widget Function(BuildContext, CancelableSnacky)?`| `null`             |
+| `trailingWidgetBuilder` | `Widget Function(BuildContext, CancelableSnacky)?`| `null`             |
+| `bottomWidgetBuilder`   | `Widget Function(BuildContext, CancelableSnacky)?`| `null`             |
+| `onTap`              | `VoidCallback?`                                      | `null`             |
+| `canBeClosed`        | `bool`                                               | `false`            |
+| `openUntillClosed`   | `bool`                                               | `false`            |
+| `showDuration`       | `Duration?`                                          | auto-calculated    |
+| `transitionDuration` | `Duration`                                           | `250ms`            |
+| `transitionCurve`    | `Curve`                                              | `Curves.easeInOut` |
+| `margin`             | `EdgeInsetsGeometry?`                                | `null`             |
+| `location`           | `SnackyLocation?`                                    | `null`             |
+| `padding`            | `EdgeInsets?`                                        | `null`             |
+
+### `Snacky.widget(...)` — custom
+
+| Parameter            | Type                                                 | Default            |
+| -------------------- | ---------------------------------------------------- | ------------------ |
+| `builder`            | `Widget Function(BuildContext, CancelableSnacky)?` (required) | —         |
+| `showDuration`       | `Duration?`                                          | auto-calculated    |
+| `transitionDuration` | `Duration`                                           | `250ms`            |
+| `transitionCurve`    | `Curve`                                              | `Curves.easeInOut` |
+| `margin`             | `EdgeInsetsGeometry?`                                | `null`             |
+| `location`           | `SnackyLocation?`                                    | `null`             |
+| `openUntillClosed`   | `bool`                                               | `false`            |
+| `canBeClosed`        | `bool`                                               | `false`            |
+| `padding`            | `EdgeInsets?`                                        | `null`             |
+
+`showDuration` getter returns the explicit value, or an auto value computed by
+`SnackyDurationUtil` from the title and subtitle.
+
+## SnackyController
+
+| Member                                              | Description                                              |
+| --------------------------------------------------- | -------------------------------------------------------- |
+| `SnackyController.instance`                         | Shared singleton controller.                             |
+| `showMessage(Snacky Function(BuildContext) builder)`| Queue and show a snacky.                                 |
+| `cancelActiveSnacky()`                              | Dismiss the currently visible snacky.                    |
+| `cancelAll()`                                       | Clear the queue and dismiss the active snacky.           |
+| `activeSnacky`                                      | `ValueNotifier<CancelableSnacky?>` of the active snacky. |
+| `attach(SnackyListener)` / `detach(SnackyListener)` | Used internally by the configurator.                     |
+
+## SnackyConfiguratorWidget
+
+| Parameter         | Type                  | Default                  |
+| ----------------- | --------------------- | ------------------------ |
+| `app`             | `Widget` (required)   | —                        |
+| `snackyController`| `SnackyController?`   | `SnackyController.instance` |
+| `snackyBuilder`   | `SnackyBuilder`       | `SimpleSnackyBuilder()`  |
+| `textDirection`   | `TextDirection`       | `TextDirection.ltr`      |
+| `layoutConfig`    | `SnackyLayoutConfig?` | `SnackyLayoutConfig()`   |
+
+## SnackyType
+
+`success`, `error`, `warning`, `info`, `branded`.
+
+## SnackyLocation
+
+| Value         | Alignment            | Edge    |
+| ------------- | -------------------- | ------- |
+| `top`         | top center           | top     |
+| `topStart`    | top start            | top     |
+| `topEnd`      | top end              | top     |
+| `bottom`      | bottom center        | bottom  |
+| `bottomStart` | bottom start         | bottom  |
+| `bottomEnd`   | bottom end           | bottom  |
+
+Exposes `alignment`, `isTop`, and `isBottom`.
+
+## SnackyLayoutConfig
+
+| Member                              | Description                                          |
+| ----------------------------------- | ---------------------------------------------------- |
+| `breakpoints`                       | `List<SnackyLayoutBreakpointConfig>`                 |
+| `validate()`                        | Throws on overlapping or invalid breakpoints.        |
+| `getSnackyWidth(BuildContext)`      | Resolves the snacky width for the current screen.    |
+| `getSnackyLocation(BuildContext, Snacky)` | Resolves the location (snacky override wins).  |
+
+### SnackyLayoutBreakpointConfig
+
+| Property           | Type              | Default           |
+| ------------------ | ----------------- | ----------------- |
+| `minWidth`         | `double`          | `0`               |
+| `maxWidth`         | `double`          | `double.infinity` |
+| `snackyMaxWidth`   | `double`          | `double.infinity` |
+| `snackyPercentage` | `double?`         | `null`            |
+| `snackyLocation`   | `SnackyLocation?` | `null`            |
+
+## Builders
+
+All implement `SnackyBuilder`:
+
+- `SimpleSnackyBuilder` — default card layout. Hooks: `backgroundColorBuilder`,
+  `iconColorBuilder`, `iconBuilder`, `borderBuilder`, `textStyleBuilder`
+  (`SimpleSnackyTextType`), `closeIconBuilder`, `shadowBuilder`, `disableInkwell`,
+  `margin`, `padding`, `borderRadius`.
+- `ToastSnackyBuilder` — centered pill. Hooks: `backgroundColorBuilder`,
+  `borderBuilder`, `textStyleBuilder` (`ToastSnackyTextType`), `margin`,
+  `padding`, `borderRadius`.
+- `GradientSnackyBuilder` — dark card with gradient icon glow. Hooks:
+  `backgroundColorBuilder`, `iconColorBuilder`, `iconBuilder`, `borderBuilder`,
+  `textStyleBuilder` (`GradientSnackyTextType`), `disableInkwell`, `margin`,
+  `padding`, `borderRadius`.
+
+Write a custom one by extending `SnackyBuilder` and implementing
+`build(context, layoutConfig, cancelableSnacky, snackyController)`.
+
+## CancelableSnacky
+
+| Member            | Description                                  |
+| ----------------- | -------------------------------------------- |
+| `snacky`          | The wrapped `Snacky`.                        |
+| `cancel()`        | Dismiss this snacky.                         |
+| `isCancelled`     | Whether it has been cancelled.               |
+| `isNotCancelled`  | Convenience inverse of `isCancelled`.        |
+
+## SnackyNavigationObserver
+
+A `NavigatorObserver` that calls `cancelAll()` on `didPush` and `didReplace`.
+Optional `snackyController` (defaults to the singleton).
+
+## SnackyDurationUtil
+
+| Member                                       | Value / Description                         |
+| -------------------------------------------- | ------------------------------------------- |
+| `baseDuration`                               | `5 seconds`                                 |
+| `maxDuration`                                | `30 seconds`                                |
+| `maxCharLength`                              | `120`                                       |
+| `calculateDuration(String title, String? subtitle)` | Auto show-duration from text length. |

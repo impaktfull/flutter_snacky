@@ -1,0 +1,53 @@
+---
+title: Navigation
+description: Automatically dismiss snackies on route changes with SnackyNavigationObserver.
+---
+
+Because snackies live in the navigator's overlay, they stay visible across route
+changes by default. Often you want them to disappear when the user navigates —
+a "Saved" confirmation on screen A shouldn't linger on screen B.
+
+`SnackyNavigationObserver` handles this: it cancels all snackies when a route is
+pushed or replaced.
+
+## Setup
+
+Add it to your app's `navigatorObservers`:
+
+```dart
+SnackyConfiguratorWidget(
+  app: MaterialApp(
+    navigatorObservers: [
+      SnackyNavigationObserver(),
+    ],
+    home: const HomeScreen(),
+  ),
+);
+```
+
+## What it does
+
+| Navigator event | Behavior            |
+| --------------- | ------------------- |
+| `didPush`       | `cancelAll()`       |
+| `didReplace`    | `cancelAll()`       |
+
+Pops are not intercepted — a snacky shown after returning to a previous screen is
+left alone.
+
+## With a custom controller
+
+By default the observer uses `SnackyController.instance`. If you use a
+[custom controller](/guides/controller#singleton-vs-custom-controller), pass it
+so the observer clears the right queue:
+
+```dart
+SnackyNavigationObserver(
+  snackyController: myController,
+);
+```
+
+<Info>
+You can register multiple observers — one per controller — if you run several
+independent controllers and want each cleared on navigation.
+</Info>
