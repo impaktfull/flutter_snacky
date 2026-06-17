@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:impaktfull_ui/impaktfull_ui.dart';
 
 class SnackyExampleScreen extends StatelessWidget {
@@ -12,14 +13,16 @@ class SnackyExampleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ImpaktfullScreen(
+    return ImpaktfullUiScreen(
       title: '$title Snacky Example',
       onBackTapped: () => Navigator.of(context).pop(),
-      child: ImpaktfullListView(
+      child: ImpaktfullUiListView(
         spacing: 8,
+        padding: const EdgeInsets.all(16),
         children: [
-          ImpaktfullButton.accent(
-            label: 'show success at the Top of the screen',
+          ImpaktfullUiButton(
+            type: ImpaktfullUiButtonType.primary,
+            title: 'show success at the Top of the screen',
             onTap: () {
               const snacky = Snacky(
                 title: 'Success (Top)',
@@ -28,8 +31,9 @@ class SnackyExampleScreen extends StatelessWidget {
               controller.showMessage((context) => snacky);
             },
           ),
-          ImpaktfullButton.accent(
-            label: 'show error at the Top of the screen',
+          ImpaktfullUiButton(
+            type: ImpaktfullUiButtonType.primary,
+            title: 'show error at the Top of the screen',
             onTap: () {
               const snacky = Snacky(
                 title: 'Error (Top)',
@@ -38,8 +42,9 @@ class SnackyExampleScreen extends StatelessWidget {
               controller.showMessage((context) => snacky);
             },
           ),
-          ImpaktfullButton.accent(
-            label: 'show warning at the Top of the screen',
+          ImpaktfullUiButton(
+            type: ImpaktfullUiButtonType.primary,
+            title: 'show warning at the Top of the screen',
             onTap: () {
               const snacky = Snacky(
                 title: 'Warning (Top)',
@@ -48,8 +53,9 @@ class SnackyExampleScreen extends StatelessWidget {
               controller.showMessage((context) => snacky);
             },
           ),
-          ImpaktfullButton.accent(
-            label: 'show info at the Top of the screen',
+          ImpaktfullUiButton(
+            type: ImpaktfullUiButtonType.primary,
+            title: 'show info at the Top of the screen',
             onTap: () {
               const snacky = Snacky(
                 title: 'Info (Top)',
@@ -58,8 +64,9 @@ class SnackyExampleScreen extends StatelessWidget {
               controller.showMessage((context) => snacky);
             },
           ),
-          ImpaktfullButton.accent(
-            label: 'show branded at the Top of the screen',
+          ImpaktfullUiButton(
+            type: ImpaktfullUiButtonType.primary,
+            title: 'show branded at the Top of the screen',
             onTap: () {
               const snacky = Snacky(
                 title: 'Branded (Top)',
@@ -68,8 +75,9 @@ class SnackyExampleScreen extends StatelessWidget {
               controller.showMessage((context) => snacky);
             },
           ),
-          ImpaktfullButton.accent(
-            label: 'show success at the bottom of the screen',
+          ImpaktfullUiButton(
+            type: ImpaktfullUiButtonType.primary,
+            title: 'show success at the bottom of the screen',
             onTap: () {
               const snacky = Snacky(
                 title: 'Success (bottom)',
@@ -79,8 +87,9 @@ class SnackyExampleScreen extends StatelessWidget {
               controller.showMessage((context) => snacky);
             },
           ),
-          ImpaktfullButton.accent(
-            label: 'show success that can be canceled',
+          ImpaktfullUiButton(
+            type: ImpaktfullUiButtonType.primary,
+            title: 'show success that can be canceled',
             onTap: () {
               const snacky = Snacky(
                 title: 'Success (Top - cancelable)',
@@ -90,8 +99,9 @@ class SnackyExampleScreen extends StatelessWidget {
               controller.showMessage((context) => snacky);
             },
           ),
-          ImpaktfullButton.accent(
-            label: 'show success that can be canceled by tap',
+          ImpaktfullUiButton(
+            type: ImpaktfullUiButtonType.primary,
+            title: 'show success that can be canceled by tap',
             onTap: () {
               final snacky = Snacky(
                 title: 'Success (Top - tap to cancel)',
@@ -101,8 +111,9 @@ class SnackyExampleScreen extends StatelessWidget {
               controller.showMessage((context) => snacky);
             },
           ),
-          ImpaktfullButton.accent(
-            label: 'show success that will stay open untill closed',
+          ImpaktfullUiButton(
+            type: ImpaktfullUiButtonType.primary,
+            title: 'show success that will stay open untill closed',
             onTap: () {
               const snacky = Snacky(
                 title: 'Success (Top - open untill closed/cancelled)',
@@ -113,8 +124,9 @@ class SnackyExampleScreen extends StatelessWidget {
               controller.showMessage((context) => snacky);
             },
           ),
-          ImpaktfullButton.accent(
-            label: 'show success at the top end of the screen',
+          ImpaktfullUiButton(
+            type: ImpaktfullUiButtonType.primary,
+            title: 'show success at the top end of the screen',
             onTap: () {
               const snacky = Snacky(
                 title: 'Success (TopEnd)',
@@ -124,8 +136,9 @@ class SnackyExampleScreen extends StatelessWidget {
               controller.showMessage((context) => snacky);
             },
           ),
-          ImpaktfullButton.accent(
-            label: 'show custom widget',
+          ImpaktfullUiButton(
+            type: ImpaktfullUiButtonType.primary,
+            title: 'show custom widget',
             onTap: () {
               final snacky = Snacky.widget(
                 builder: (context, cancelabelSnacky) => Container(
@@ -141,8 +154,9 @@ class SnackyExampleScreen extends StatelessWidget {
               controller.showMessage((context) => snacky);
             },
           ),
-          ImpaktfullButton.accent(
-            label: 'show custom widget that will still open until closed',
+          ImpaktfullUiButton(
+            type: ImpaktfullUiButtonType.primary,
+            title: 'show custom widget that will still open until closed',
             onTap: () {
               final snacky = Snacky.widget(
                 builder: (context, cancelabelSnacky) => Container(
@@ -162,12 +176,14 @@ class SnackyExampleScreen extends StatelessWidget {
               controller.showMessage((context) => snacky);
             },
           ),
-          ImpaktfullButton.primary(
-            label: 'cancel all snackies',
+          ImpaktfullUiButton(
+            type: ImpaktfullUiButtonType.secondary,
+            title: 'cancel all snackies',
             onTap: () => controller.cancelAll(),
           ),
-          ImpaktfullButton.primary(
-            label: 'cancel active snacky',
+          ImpaktfullUiButton(
+            type: ImpaktfullUiButtonType.secondary,
+            title: 'cancel active snacky',
             onTap: () => controller.cancelActiveSnacky(),
           ),
         ],

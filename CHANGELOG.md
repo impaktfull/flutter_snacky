@@ -1,3 +1,13 @@
+# 0.9.0
+
+## Feat
+
+- Added full documentation
+
+## Updated
+
+- Example to support latest Flutter version 3.44.x
+
 # 0.8.0
 
 ## Feat
