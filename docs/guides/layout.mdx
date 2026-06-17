@@ -1,0 +1,81 @@
+---
+title: Layout & Responsive
+description: Adapt snacky width and position to screen size with SnackyLayoutConfig breakpoints.
+---
+
+By default a snacky stretches to the full available width and appears at the
+top. On larger screens that's rarely what you want. `SnackyLayoutConfig` lets you
+define **breakpoints** that control the width and default location per screen
+size.
+
+Pass it to the configurator:
+
+```dart
+SnackyConfiguratorWidget(
+  layoutConfig: const SnackyLayoutConfig(
+    breakpoints: [
+      SnackyLayoutBreakpointConfig(
+        minWidth: 0,
+        maxWidth: 600,
+        snackyMaxWidth: double.infinity,
+        snackyLocation: SnackyLocation.top,
+      ),
+      SnackyLayoutBreakpointConfig(
+        minWidth: 600,
+        maxWidth: 900,
+        snackyMaxWidth: 300,
+        snackyLocation: SnackyLocation.topEnd,
+      ),
+      SnackyLayoutBreakpointConfig(
+        minWidth: 900,
+        maxWidth: double.infinity,
+        snackyPercentage: 0.33,
+        snackyMaxWidth: 600,
+        snackyLocation: SnackyLocation.topEnd,
+      ),
+    ],
+  ),
+  app: MaterialApp(/* ... */),
+);
+```
+
+This config means:
+
+- **Phones (0–600px):** full-width snacky at the top.
+- **Tablets (600–900px):** 300px wide, pinned to the top-end corner.
+- **Desktop (900px+):** 33% of the screen width, capped at 600px, top-end.
+
+## Breakpoint properties
+
+| Property          | Type             | Default            | Description                                                        |
+| ----------------- | ---------------- | ------------------ | ------------------------------------------------------------------ |
+| `minWidth`        | `double`         | `0`                | Lower bound (inclusive) of the screen width range.                 |
+| `maxWidth`        | `double`         | `double.infinity`  | Upper bound (inclusive) of the screen width range.                 |
+| `snackyMaxWidth`  | `double`         | `double.infinity`  | Maximum width of the snacky in this range.                         |
+| `snackyPercentage`| `double?`        | `null`             | Snacky width as a fraction of screen width (capped at `snackyMaxWidth`). |
+| `snackyLocation`  | `SnackyLocation?`| `null`             | Default location for snackies in this range.                       |
+
+## How width is resolved
+
+For the current screen width, Snacky picks the matching breakpoint and computes:
+
+- If `snackyPercentage` is set: `min(screenWidth * snackyPercentage, snackyMaxWidth)`.
+- Otherwise: `snackyMaxWidth`.
+- If no breakpoint matches the width: full width (`double.infinity`).
+
+## How location is resolved
+
+1. If a `Snacky` sets its own `location`, that always wins.
+2. Otherwise, the matching breakpoint's `snackyLocation` is used.
+3. If neither is set, it defaults to `SnackyLocation.top`.
+
+## Validation
+
+Breakpoints are validated when the configurator initializes. An exception is
+thrown if:
+
+- a breakpoint has `minWidth > maxWidth`, or
+- two breakpoints overlap.
+
+Keep your ranges contiguous and non-overlapping (e.g. `0–600`, `600–900`,
+`900–∞`). Gaps are allowed — widths in a gap fall back to full width and top.

@@ -1,0 +1,83 @@
+---
+title: Queue & Controller
+description: How SnackyController queues messages, and when to use the singleton vs a custom instance.
+---
+
+The `SnackyController` is the entry point for showing and dismissing snackies. It
+also owns the **queue** that ensures snackies are shown one at a time.
+
+## Showing a snacky
+
+```dart
+SnackyController.instance.showMessage(
+  (context) => const Snacky(title: 'Hello'),
+);
+```
+
+`showMessage` takes a builder `Snacky Function(BuildContext)`. The `BuildContext`
+is the overlay's context, so you can read `Theme`, `MediaQuery`, or localizations
+while constructing the snacky.
+
+## The queue
+
+Snacky shows **one snacky at a time**. When you call `showMessage`, the snacky is
+appended to a queue. If nothing is currently visible, it's shown immediately;
+otherwise it waits. When the active snacky is dismissed (by duration, swipe,
+close button, or `cancel`), the next one in the queue is shown automatically.
+
+This is intentional — see
+[Architecture](/concepts/architecture#single-active-queue) for the reasoning.
+
+## Dismissing
+
+```dart
+// Dismiss the currently visible snacky (the next queued one will show).
+SnackyController.instance.cancelActiveSnacky();
+
+// Clear the queue and dismiss the active snacky.
+SnackyController.instance.cancelAll();
+```
+
+## Observing the active snacky
+
+`activeSnacky` is a `ValueNotifier<CancelableSnacky?>` you can listen to — useful
+for analytics or coordinating other UI:
+
+```dart
+SnackyController.instance.activeSnacky.addListener(() {
+  final active = SnackyController.instance.activeSnacky.value;
+  debugPrint('Active snacky: ${active?.snacky.title}');
+});
+```
+
+## Singleton vs custom controller
+
+`SnackyController.instance` is a ready-to-use singleton — fine for most apps.
+
+Create your own instance when you want **independent queues or looks**. A common
+case is showing toasts and cards independently. A custom controller must be
+passed to a `SnackyConfiguratorWidget` so it's attached to an overlay:
+
+```dart
+final toastController = SnackyController();
+
+SnackyConfiguratorWidget(
+  snackyBuilder: const SimpleSnackyBuilder(),
+  app: SnackyConfiguratorWidget(
+    snackyBuilder: const ToastSnackyBuilder(),
+    snackyController: toastController,
+    app: MaterialApp(/* ... */),
+  ),
+);
+
+// Independent queues:
+SnackyController.instance.showMessage((context) => const Snacky(title: 'Card'));
+toastController.showMessage((context) => const Snacky(title: 'Toast'));
+```
+
+<Warning>
+Each controller must be attached to exactly one mounted configurator. If you call
+`showMessage` and no overlay is available — for example because the
+`SnackyConfiguratorWidget` was disposed — Snacky logs a debug message and does
+nothing. Keep the configurator near the root of your tree.
+</Warning>

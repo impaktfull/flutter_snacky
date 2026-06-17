@@ -1,0 +1,104 @@
+---
+title: Custom Widgets
+description: Render your own widget with Snacky.widget and dismiss it from the inside with CancelableSnacky.
+---
+
+When you need full control over the visual presentation, use `Snacky.widget` and
+provide your own widget through the `builder`. This bypasses the title/subtitle/
+type layout entirely — you render exactly what you want, while Snacky still
+handles the queue, transitions, positioning, and swipe-to-dismiss.
+
+## Basic usage
+
+```dart
+SnackyController.instance.showMessage(
+  (context) => Snacky.widget(
+    builder: (context, cancelableSnacky) => Container(
+      color: const Color(0xFF7D64F2),
+      padding: const EdgeInsets.all(16),
+      child: const Text(
+        'This is a custom widget',
+        style: TextStyle(color: Colors.white),
+      ),
+    ),
+    location: SnackyLocation.topEnd,
+  ),
+);
+```
+
+## CancelableSnacky
+
+The `builder` receives a `CancelableSnacky`. Call `cancel()` to dismiss the
+snacky from inside your widget — for example, from a custom close button:
+
+```dart
+Snacky.widget(
+  builder: (context, cancelableSnacky) => YourCustomSnackyWidget(
+    onClose: cancelableSnacky.cancel,
+  ),
+);
+```
+
+`CancelableSnacky` also exposes:
+
+- `snacky` — the `Snacky` it wraps.
+- `isCancelled` / `isNotCancelled` — its current state.
+
+## Staying open until dismissed
+
+A custom widget pairs naturally with `openUntillClosed`, so it stays until the
+user acts:
+
+```dart
+Snacky.widget(
+  builder: (context, cancelableSnacky) => Material(
+    color: const Color(0xFF7D64F2),
+    child: Padding(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          const Expanded(
+            child: Text('Action required', style: TextStyle(color: Colors.white)),
+          ),
+          TextButton(
+            onPressed: cancelableSnacky.cancel,
+            child: const Text('Dismiss'),
+          ),
+        ],
+      ),
+    ),
+  ),
+  location: SnackyLocation.bottom,
+  canBeClosed: true,
+  openUntillClosed: true,
+);
+```
+
+## margin vs padding
+
+These two control spacing and are especially useful for custom widgets:
+
+- **`margin`** — the spacing *around* the snacky widget itself.
+- **`padding`** — spacing applied *inside the safe area*, useful to lift a
+  bottom-located snacky above a `BottomNavigationBar`:
+
+```dart
+Snacky.widget(
+  builder: (context, cancelableSnacky) => /* ... */,
+  location: SnackyLocation.bottom,
+  padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+);
+```
+
+## Available options
+
+`Snacky.widget` supports the behavior options that make sense for a fully custom
+widget: `showDuration`, `transitionDuration`, `transitionCurve`, `margin`,
+`location`, `openUntillClosed`, `canBeClosed`, and `padding`. The text/type/icon
+options (`title`, `subtitle`, `type`, `leadingWidgetBuilder`, etc.) do not apply
+here — that's what your `builder` is for.
+
+<Info>
+Wrap interactive content in a `Material` if you rely on ink effects or text
+styling, since the snacky is rendered in an overlay.
+</Info>

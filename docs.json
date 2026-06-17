@@ -1,0 +1,70 @@
+{
+  "$schema": "https://docs.page/schema.json",
+  "name": "Snacky",
+  "description": "You deserve a simple snack! Simple, customizable snackbars & toasts for Flutter.",
+  "logo": {
+    "light": "https://raw.githubusercontent.com/impaktfull/flutter_snacky/main/assets/logo.svg",
+    "dark": "https://raw.githubusercontent.com/impaktfull/flutter_snacky/main/assets/logo.svg"
+  },
+  "theme": {
+    "primaryLight": "#7D64F2",
+    "primaryDark": "#7D64F2"
+  },
+  "scripts": {
+    "googleAnalytics": "G-XXXXXXXXXX"
+  },
+  "social": {
+    "github": "impaktfull",
+    "website": "https://impaktfull.com"
+  },
+  "anchors": [
+    {
+      "title": "Live Demo",
+      "icon": "play",
+      "href": "https://example.snacky.opensource.impaktfull.com"
+    },
+    {
+      "title": "pub.dev",
+      "icon": "box",
+      "href": "https://pub.dev/packages/snacky"
+    },
+    {
+      "title": "GitHub",
+      "icon": "github",
+      "href": "https://github.com/impaktfull/flutter_snacky"
+    }
+  ],
+  "sidebar": [
+    {
+      "group": "Getting Started",
+      "pages": [
+        { "title": "📖 Overview", "href": "/" },
+        { "title": "🚀 Installation", "href": "/installation" },
+        { "title": "⚡ Quick Start", "href": "/quick-start" }
+      ]
+    },
+    {
+      "group": "Guides",
+      "pages": [
+        { "title": "🍿 Showing Snackies", "href": "/guides/showing-snackies" },
+        { "title": "🎨 Custom Widgets", "href": "/guides/custom-widgets" },
+        { "title": "🖌️ Builders & Theming", "href": "/guides/builders" },
+        { "title": "📐 Layout & Responsive", "href": "/guides/layout" },
+        { "title": "🧭 Queue & Controller", "href": "/guides/controller" },
+        { "title": "🚦 Navigation", "href": "/guides/navigation" }
+      ]
+    },
+    {
+      "group": "Concepts",
+      "pages": [
+        { "title": "🏗️ Architecture & Design Decisions", "href": "/concepts/architecture" }
+      ]
+    },
+    {
+      "group": "Reference",
+      "pages": [
+        { "title": "📚 API Reference", "href": "/reference/api" }
+      ]
+    }
+  ]
+}

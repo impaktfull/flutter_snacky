@@ -1,0 +1,71 @@
+---
+title: Quick Start
+description: Wire up the SnackyConfiguratorWidget and show your first snacky.
+---
+
+Getting started with Snacky takes two steps: wrap your app once, then show
+snackies from anywhere.
+
+## 1. Wrap your app
+
+Place a `SnackyConfiguratorWidget` at the top of your widget tree, with your
+`MaterialApp` (or `CupertinoApp`/`WidgetsApp`) as its `app`:
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:snacky/snacky.dart';
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SnackyConfiguratorWidget(
+      app: MaterialApp(
+        title: 'My App',
+        // Optional: automatically close snackies when navigating
+        navigatorObservers: [
+          SnackyNavigationObserver(),
+        ],
+        home: const HomeScreen(),
+      ),
+    );
+  }
+}
+```
+
+<Info>
+The configurator must sit **above** the `Navigator` (i.e. wrap the
+`MaterialApp`), and it must stay mounted for as long as you want to show
+snackies. Snacky finds the navigator's overlay through this widget — see
+[Architecture](/concepts/architecture) for the why.
+</Info>
+
+## 2. Show a snacky
+
+From anywhere in your app, use the singleton controller:
+
+```dart
+SnackyController.instance.showMessage(
+  (context) => const Snacky(
+    title: 'Welcome back!',
+    type: SnackyType.success,
+  ),
+);
+```
+
+That's it. The snacky slides in from the top, stays visible for a duration based
+on its text length, then slides back out.
+
+## What you get by default
+
+- A clean `SimpleSnackyBuilder` look (white card, type icon, optional close button).
+- Automatic show-duration based on the text length.
+- A queue that shows one snacky at a time.
+
+## Where to go next
+
+- [Showing Snackies](/guides/showing-snackies) — control type, position, duration, taps, and extra widgets.
+- [Custom Widgets](/guides/custom-widgets) — render your own widget instead of the default layout.
+- [Builders & Theming](/guides/builders) — change the global look of all snackies.
+- [Layout & Responsive](/guides/layout) — adapt width and position to screen size.

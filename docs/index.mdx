@@ -1,0 +1,54 @@
+---
+title: Snacky
+description: You deserve a simple snack! Simple, customizable snackbars & toasts for Flutter with minimal setup.
+---
+
+**You deserve a simple snack!**
+
+A lot of the current snackbar & toast libraries are too complicated for simple
+use cases. Snacky is a simple library that lets you show a snackbar with minimal
+setup and an easy-to-use API — while still giving you full control when you need
+it.
+
+## Why Snacky
+
+- **Minimal setup** — wrap your app once, then show snackies from anywhere with a single call.
+- **Works above everything** — snackies render in the navigator's overlay, so they float above your UI and survive screen changes.
+- **One at a time** — a built-in queue shows snackies sequentially instead of stacking them on top of each other.
+- **Typed out of the box** — `success`, `error`, `warning`, `info`, and `branded` styles with sensible defaults.
+- **Fully customizable** — swap the look with a built-in builder, write your own builder, or render a completely custom widget.
+- **Responsive** — configure width and position per screen-size breakpoint.
+
+## Demo
+
+<video
+  controls
+  src="https://raw.githubusercontent.com/impaktfull/flutter_snacky/main/assets/preview.mp4"
+/>
+
+Try the [live web demo](https://example.snacky.opensource.impaktfull.com).
+
+## A quick taste
+
+```dart
+SnackyController.instance.showMessage(
+  (context) => const Snacky(
+    title: 'Saved!',
+    subtitle: 'Your changes have been stored.',
+    type: SnackyType.success,
+  ),
+);
+```
+
+## Next steps
+
+- [Installation](/installation) — add Snacky to your project.
+- [Quick Start](/quick-start) — set up the configurator and show your first snacky.
+- [Showing Snackies](/guides/showing-snackies) — every option explained.
+- [Architecture & Design Decisions](/concepts/architecture) — understand how and why Snacky works the way it does.
+
+## Links
+
+- [pub.dev](https://pub.dev/packages/snacky)
+- [GitHub](https://github.com/impaktfull/flutter_snacky)
+- [Live Demo](https://example.snacky.opensource.impaktfull.com)

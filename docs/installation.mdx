@@ -1,0 +1,49 @@
+---
+title: Installation
+description: Add Snacky to your Flutter project.
+---
+
+## Add the package
+
+Run this from your project root:
+
+```bash
+flutter pub add snacky
+```
+
+Or add it manually to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  snacky: ^0.8.0
+```
+
+Then fetch packages:
+
+```bash
+flutter pub get
+```
+
+## Import
+
+Everything you need is exported from a single file:
+
+```dart
+import 'package:snacky/snacky.dart';
+```
+
+## Requirements
+
+Snacky targets a wide range of SDKs:
+
+| Tool    | Constraint        |
+| ------- | ----------------- |
+| Dart    | `>=3.2.0 <4.0.0`  |
+| Flutter | `>=1.17.0`        |
+
+Snacky has no third-party dependencies — it only depends on the Flutter SDK.
+
+## Next step
+
+Head to the [Quick Start](/quick-start) to wire up the configurator and show
+your first snacky.

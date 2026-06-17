@@ -1,0 +1,191 @@
+---
+title: Showing Snackies
+description: Every option of the Snacky model explained — type, position, duration, taps, and extra widgets.
+---
+
+The structured `Snacky` constructor covers the most common cases: a title, an
+optional subtitle, a type, and a handful of behavior options. For full visual
+control, see [Custom Widgets](/guides/custom-widgets).
+
+You always show a snacky through a controller:
+
+```dart
+SnackyController.instance.showMessage(
+  (context) => const Snacky(title: 'Hello!'),
+);
+```
+
+`showMessage` takes a builder so the snacky is created with the overlay's
+`BuildContext` — handy if you need `Theme.of(context)` or localization when
+constructing it.
+
+## Types
+
+`type` selects the icon and accent color used by the built-in builders:
+
+```dart
+const Snacky(title: 'Saved', type: SnackyType.success);
+const Snacky(title: 'Something went wrong', type: SnackyType.error);
+const Snacky(title: 'Heads up', type: SnackyType.warning);
+const Snacky(title: 'For your information', type: SnackyType.info); // default
+const Snacky(title: 'On brand', type: SnackyType.branded);
+```
+
+Available values: `success`, `error`, `warning`, `info` (default), `branded`.
+
+## Title & subtitle
+
+```dart
+const Snacky(
+  title: 'Upload complete',
+  subtitle: 'Your file is now available to your team.',
+);
+```
+
+## Position
+
+Use `location` to place the snacky. There are six positions — top and bottom,
+each in center / start / end variants:
+
+```dart
+const Snacky(
+  title: 'Bottom-right toast',
+  location: SnackyLocation.bottomEnd,
+);
+```
+
+| Value                      | Position      |
+| -------------------------- | ------------- |
+| `SnackyLocation.top`       | Top center    |
+| `SnackyLocation.topStart`  | Top start     |
+| `SnackyLocation.topEnd`    | Top end       |
+| `SnackyLocation.bottom`    | Bottom center |
+| `SnackyLocation.bottomStart` | Bottom start |
+| `SnackyLocation.bottomEnd` | Bottom end    |
+
+If you don't set `location`, it falls back to the location from your
+[layout config](/guides/layout) (default: top).
+
+## Duration
+
+By default the show-duration is **calculated from the text length** — longer
+messages stay on screen longer. Override it with `showDuration`:
+
+```dart
+const Snacky(
+  title: 'This stays for exactly 10 seconds',
+  showDuration: Duration(seconds: 10),
+);
+```
+
+The automatic calculation is `5 seconds + 1 second per 120 characters`, capped
+at 30 seconds. See [the architecture page](/concepts/architecture#auto-duration)
+for the reasoning.
+
+To keep a snacky open until the user (or your code) dismisses it, use
+`openUntillClosed`:
+
+```dart
+const Snacky(
+  title: 'I will not go away on my own',
+  canBeClosed: true,      // show a close button
+  openUntillClosed: true, // ignore showDuration
+);
+```
+
+## Dismissal
+
+- `canBeClosed: true` adds a close (✕) button rendered by the builder.
+- Snackies can also be **swiped away** in the direction of their location.
+- `onTap` makes the whole snacky tappable:
+
+```dart
+Snacky(
+  title: 'Tap to dismiss',
+  type: SnackyType.info,
+  onTap: () => SnackyController.instance.cancelActiveSnacky(),
+);
+```
+
+When `onTap` is set (and there is no close button), the built-in builders show a
+chevron to hint the snacky is interactive.
+
+## Extra widgets
+
+You can inject widgets into the built-in layout without writing a full custom
+builder. Each builder receives the current `BuildContext` and a
+[`CancelableSnacky`](/guides/custom-widgets#cancelablesnacky) so the widget can
+dismiss the snacky:
+
+```dart
+Snacky(
+  title: 'New message',
+  leadingWidgetBuilder: (context, snacky) => const CircleAvatar(child: Icon(Icons.person)),
+  trailingWidgetBuilder: (context, snacky) => IconButton(
+    icon: const Icon(Icons.close),
+    onPressed: snacky.cancel,
+  ),
+  bottomWidgetBuilder: (context, snacky) => TextButton(
+    onPressed: () { /* ... */ },
+    child: const Text('Undo'),
+  ),
+);
+```
+
+- `leadingWidgetBuilder` — replaces the type icon on the leading edge.
+- `trailingWidgetBuilder` — adds a widget on the trailing edge.
+- `bottomWidgetBuilder` — adds a widget below the title/subtitle.
+
+<Info>
+`bottomWidgetBuilder` is rendered by the `SimpleSnackyBuilder` and
+`GradientSnackyBuilder`, but not by the `ToastSnackyBuilder`. See
+[Builders & Theming](/guides/builders).
+</Info>
+
+## Transitions
+
+Control the slide animation with `transitionDuration` and `transitionCurve`:
+
+```dart
+const Snacky(
+  title: 'Smooth',
+  transitionDuration: Duration(milliseconds: 400),
+  transitionCurve: Curves.easeOutBack,
+);
+```
+
+Defaults: `250ms` and `Curves.easeInOut`.
+
+## Spacing
+
+- `margin` — spacing around the snacky (outside its safe area).
+- `padding` — spacing applied around the snacky inside the safe area, useful to
+  lift a bottom snacky above a `BottomNavigationBar`:
+
+```dart
+const Snacky(
+  title: 'Above the nav bar',
+  location: SnackyLocation.bottom,
+  padding: EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+);
+```
+
+## Full option reference
+
+| Property             | Type                                              | Default                | Description                                              |
+| -------------------- | ------------------------------------------------- | ---------------------- | -------------------------------------------------------- |
+| `title`              | `String` (required)                               | —                      | The main text.                                           |
+| `type`               | `SnackyType`                                      | `info`                 | Icon and accent color.                                   |
+| `subtitle`           | `String?`                                         | `null`                 | Secondary text.                                          |
+| `showDuration`       | `Duration?`                                       | auto (text length)     | How long it stays visible.                               |
+| `transitionDuration` | `Duration`                                        | `250ms`                | In/out animation length.                                 |
+| `transitionCurve`    | `Curve`                                           | `Curves.easeInOut`     | In/out animation curve.                                  |
+| `location`           | `SnackyLocation?`                                 | layout config / `top`  | Where it appears.                                        |
+| `openUntillClosed`   | `bool`                                            | `false`                | Ignore `showDuration`; stay until dismissed.             |
+| `canBeClosed`        | `bool`                                            | `false`                | Show a close button.                                     |
+| `onTap`              | `VoidCallback?`                                   | `null`                 | Makes the whole snacky tappable.                         |
+| `leadingWidgetBuilder`  | `Widget Function(BuildContext, CancelableSnacky)?` | `null`            | Leading-edge widget.                                     |
+| `trailingWidgetBuilder` | `Widget Function(BuildContext, CancelableSnacky)?` | `null`            | Trailing-edge widget.                                    |
+| `bottomWidgetBuilder`   | `Widget Function(BuildContext, CancelableSnacky)?` | `null`            | Widget below the text.                                   |
+| `margin`             | `EdgeInsetsGeometry?`                             | builder default        | Spacing around the snacky.                               |
+| `padding`            | `EdgeInsets?`                                     | `null`                 | Spacing inside the safe area.                            |

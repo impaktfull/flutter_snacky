@@ -1,0 +1,131 @@
+---
+title: Architecture & Design Decisions
+description: How Snacky works under the hood, and the reasoning behind its key design decisions.
+---
+
+This page explains *how* Snacky works and *why* it's built this way. Reading it
+will help you reason about edge cases and extend the library confidently.
+
+## The big picture
+
+```
+SnackyController  ──shows──▶  queue of CancelableSnacky
+       │                              │
+       │ attaches to                  │ one at a time
+       ▼                              ▼
+SnackyConfiguratorWidget  ──inserts──▶  Navigator's Overlay
+       │                              │
+       │ uses                         │ rendered by
+       ▼                              ▼
+ SnackyLayoutConfig             SnackyBuilder → BaseSnackyWidget
+```
+
+- The **controller** owns the queue and decides what is shown.
+- The **configurator** bridges the controller to Flutter: it finds the
+  navigator's overlay and renders the active snacky through a **builder**.
+- The **layout config** decides width and position.
+
+## Overlay-based rendering
+
+Snackies are inserted as `OverlayEntry`s into the **navigator's overlay**, not
+into your widget tree where `showMessage` was called.
+
+The `SnackyConfiguratorWidget` finds the overlay by walking its child element
+tree to locate the `Navigator` and using its `overlay`. This is why the
+configurator must wrap your `MaterialApp` (which creates the `Navigator`).
+
+**Why this design:**
+
+- Snackies float above all app content, regardless of where they were triggered.
+- They are not tied to the `BuildContext` of the calling widget, so they survive
+  even if that widget is disposed.
+- You can show a snacky from anywhere — a bloc, a service, a button callback —
+  without passing a `context` down.
+
+**Implications:**
+
+- The configurator must sit above the `Navigator` and stay mounted. If it's
+  disposed, there's no overlay and `showMessage` quietly no-ops (with a debug
+  log).
+- Because snackies persist across routes, the
+  [`SnackyNavigationObserver`](/guides/navigation) exists to clear them on
+  navigation when you want that.
+
+## Single-active queue
+
+The controller keeps a list of pending snackies and shows exactly one at a time.
+When the active snacky is removed, the controller schedules the next one.
+
+**Why one at a time:** stacking multiple snackbars over each other is visually
+noisy and hard to read. A queue keeps the screen calm and ensures every message
+is seen. If you need independent streams (e.g. toasts vs. cards), use
+[separate controllers](/guides/controller#singleton-vs-custom-controller) —
+each has its own queue.
+
+## Builder decoupled from message
+
+A `Snacky` carries **data** (title, subtitle, type, behavior). A `SnackyBuilder`
+turns that data into **widgets**. They are deliberately separate concerns.
+
+**Why:**
+
+- You set the look once per app (or per controller) via the builder, instead of
+  styling every call site.
+- Swapping the entire visual style is a one-line change
+  (`SimpleSnackyBuilder` → `ToastSnackyBuilder`).
+- The same message data can be rendered differently by different controllers.
+
+The built-in builders all compose a shared `BaseSnackyWidget`, which provides the
+slide transition, safe-area handling, swipe-to-dismiss, and whole-snacky tap
+handling — so each builder only has to describe the *content*, not the behavior.
+
+## Structured vs custom (`Snacky` vs `Snacky.widget`)
+
+Snacky offers two construction modes:
+
+- **`Snacky(...)`** — structured: you provide data and the builder draws it.
+  Best for the common case; consistent styling for free.
+- **`Snacky.widget(builder: ...)`** — custom: you provide the widget directly.
+  Best when a single message needs a bespoke layout the builder can't express.
+
+This split keeps the simple case simple while leaving an escape hatch for full
+control — without forcing every snacky through a custom widget.
+
+## CancelableSnacky as a handle
+
+Internally a `Snacky` is wrapped in a `CancelableSnacky`. This wrapper is what
+gets queued, and it's what builders and custom widgets receive.
+
+**Why a wrapper:** the `Snacky` model is immutable data. Dismissal is *behavior*
+that needs a live handle to the active instance. `CancelableSnacky` provides
+`cancel()` and cancellation state without polluting the data model, and lets a
+custom widget dismiss itself (`cancelableSnacky.cancel()`).
+
+## Auto-duration
+
+When you don't set `showDuration`, Snacky calculates one from the text length:
+
+```
+duration = 5 seconds + 1 second per 120 characters of (title + subtitle)
+```
+
+capped at **30 seconds** (base is 5 seconds).
+
+**Why:** a fixed duration is wrong for both short and long messages — a long
+message needs more reading time, a short one doesn't. Scaling with text length
+gives every message a fair reading window without you having to tune durations
+by hand. You can always override `showDuration`, or use `openUntillClosed` to
+disable auto-dismissal entirely.
+
+## Putting it together
+
+A typical `showMessage` flows like this:
+
+1. You call `controller.showMessage((context) => Snacky(...))`.
+2. The controller wraps it in a `CancelableSnacky` and adds it to the queue.
+3. If nothing is active, the controller inserts an `OverlayEntry` into the
+   navigator's overlay.
+4. The configurator renders the active snacky via the `SnackyBuilder`, positioned
+   and sized by the `SnackyLayoutConfig`.
+5. On dismissal (duration, swipe, close, or `cancel`), the overlay entry is
+   removed and the next queued snacky is scheduled.
