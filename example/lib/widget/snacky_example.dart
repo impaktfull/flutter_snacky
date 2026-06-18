@@ -23,6 +23,7 @@ class SnackyExampleScreen extends StatelessWidget {
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.primary,
             title: 'show success at the Top of the screen',
+            fullWidth: true,
             onTap: () {
               const snacky = Snacky(
                 title: 'Success (Top)',
@@ -34,6 +35,7 @@ class SnackyExampleScreen extends StatelessWidget {
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.primary,
             title: 'show error at the Top of the screen',
+            fullWidth: true,
             onTap: () {
               const snacky = Snacky(
                 title: 'Error (Top)',
@@ -45,6 +47,7 @@ class SnackyExampleScreen extends StatelessWidget {
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.primary,
             title: 'show warning at the Top of the screen',
+            fullWidth: true,
             onTap: () {
               const snacky = Snacky(
                 title: 'Warning (Top)',
@@ -56,6 +59,7 @@ class SnackyExampleScreen extends StatelessWidget {
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.primary,
             title: 'show info at the Top of the screen',
+            fullWidth: true,
             onTap: () {
               const snacky = Snacky(
                 title: 'Info (Top)',
@@ -67,6 +71,7 @@ class SnackyExampleScreen extends StatelessWidget {
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.primary,
             title: 'show branded at the Top of the screen',
+            fullWidth: true,
             onTap: () {
               const snacky = Snacky(
                 title: 'Branded (Top)',
@@ -78,6 +83,7 @@ class SnackyExampleScreen extends StatelessWidget {
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.primary,
             title: 'show success at the bottom of the screen',
+            fullWidth: true,
             onTap: () {
               const snacky = Snacky(
                 title: 'Success (bottom)',
@@ -90,6 +96,7 @@ class SnackyExampleScreen extends StatelessWidget {
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.primary,
             title: 'show success that can be canceled',
+            fullWidth: true,
             onTap: () {
               const snacky = Snacky(
                 title: 'Success (Top - cancelable)',
@@ -114,6 +121,7 @@ class SnackyExampleScreen extends StatelessWidget {
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.primary,
             title: 'show success that will stay open untill closed',
+            fullWidth: true,
             onTap: () {
               const snacky = Snacky(
                 title: 'Success (Top - open untill closed/cancelled)',
@@ -127,6 +135,7 @@ class SnackyExampleScreen extends StatelessWidget {
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.primary,
             title: 'show success at the top end of the screen',
+            fullWidth: true,
             onTap: () {
               const snacky = Snacky(
                 title: 'Success (TopEnd)',
@@ -139,6 +148,7 @@ class SnackyExampleScreen extends StatelessWidget {
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.primary,
             title: 'show custom widget',
+            fullWidth: true,
             onTap: () {
               final snacky = Snacky.widget(
                 builder: (context, cancelabelSnacky) => Container(
@@ -157,6 +167,7 @@ class SnackyExampleScreen extends StatelessWidget {
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.primary,
             title: 'show custom widget that will still open until closed',
+            fullWidth: true,
             onTap: () {
               final snacky = Snacky.widget(
                 builder: (context, cancelabelSnacky) => Container(
@@ -170,8 +181,7 @@ class SnackyExampleScreen extends StatelessWidget {
                 location: SnackyLocation.bottom,
                 canBeClosed: true,
                 openUntillClosed: true,
-                padding:
-                    const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
+                padding: const EdgeInsets.only(bottom: kBottomNavigationBarHeight),
               );
               controller.showMessage((context) => snacky);
             },
@@ -179,11 +189,13 @@ class SnackyExampleScreen extends StatelessWidget {
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.secondary,
             title: 'cancel all snackies',
+            fullWidth: true,
             onTap: () => controller.cancelAll(),
           ),
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.secondary,
             title: 'cancel active snacky',
+            fullWidth: true,
             onTap: () => controller.cancelActiveSnacky(),
           ),
         ],

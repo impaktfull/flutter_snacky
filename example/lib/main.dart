@@ -61,6 +61,7 @@ class HomeScreen extends StatelessWidget {
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.primary,
             title: 'Simple',
+            fullWidth: true,
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => SnackyExampleScreen(
@@ -73,6 +74,7 @@ class HomeScreen extends StatelessWidget {
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.primary,
             title: 'Toast',
+            fullWidth: true,
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => SnackyExampleScreen(
@@ -85,6 +87,7 @@ class HomeScreen extends StatelessWidget {
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.primary,
             title: 'Gradient',
+            fullWidth: true,
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => SnackyExampleScreen(
@@ -97,6 +100,7 @@ class HomeScreen extends StatelessWidget {
           ImpaktfullUiButton(
             type: ImpaktfullUiButtonType.primary,
             title: 'Layout Config tester',
+            fullWidth: true,
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => SnackyExampleScreen(
