@@ -1,215 +1,207 @@
-# 0.9.0
+# Changelog
 
-## Feat
+## 0.8.0
 
-- Added full documentation
-
-## Updated
-
-- Example to support latest Flutter version 3.44.x
-
-# 0.8.0
-
-## Feat
+### Feat
 
 - Added `padding` to `Snacky`
 - Added `openUntilClosed` and `canBeClosed` as an option for a `Snacky.widget`
 
-# 0.7.0
+## 0.7.0
 
-## Feat
+### Feat
 
 - Added `margin` to `Snacky`
 
-# 0.6.1 - 0.6.2
+## 0.6.1 - 0.6.2
 
-## Fix
+### Fix
 
 - Fix `OverlayState` null check
 
 - github action to publish to github pages
 
-# 0.6.0
+## 0.6.0
 
-## Feat
+### Feat
 
 - Make shadow configurable in the `SimpleSnackyBuilder`
 
-## Fix
+### Fix
 
 - Deprecated `color.withOpacity` by using our own `color.withOpacityPercentage` extension
 
-# 0.5.7
+## 0.5.7
 
-## Fix
+### Fix
 
 - Updated license
 
-# 0.5.6
+## 0.5.6
 
-## Fix
+### Fix
 
 - layout config `width`
 
-# 0.5.5
+## 0.5.5
 
-## Fix
+### Fix
 
 - Example app name
 
-# 0.5.4
+## 0.5.4
 
-## Fix
+### Fix
 
 - Example name & app icons
 
-# 0.5.3
+## 0.5.3
 
-## Docs
+### Docs
 
 - improved readme docs
 
-# 0.5.2
+## 0.5.2
 
-## Docs
+### Docs
 
 - README.md updated to have the links to the web demo
 
-# 0.5.1
+## 0.5.1
 
-## Fix
+### Fix
 
 - Deploy to web github action
 
-# 0.5.0
+## 0.5.0
 
-## Feat
+### Feat
 
 - Deploy to web github action
 - Calculate the duration of a snacky based on the title & subtitle
 - Expose SnackyDurationUtil so other people can also use the calculation
 
-# 0.4.0
+## 0.4.0
 
-## Feat
+### Feat
 
 - Added layout config with SnackyLayoutConfig
 - Breakpoints support with SnackyLayoutBreakpointConfig
 - Default location support with SnackyLayoutBreakpointConfig
 
-## Breaking
+### Breaking
 
 - Requires SnackyLayoutConfig to be passed to the building blocks
 - Snacky.location is now optional. null (defaults to SnackyLayoutBreakpointConfig.snackyLocation)
 
-## Fix
+### Fix
 
 - Snackies always stayed in the widgettree. (Fixed by using `OverlayEntry.remove()` function)
 
-# 0.3.0
+## 0.3.0
 
-## Feat
+### Feat
 
 - ToastSnackyBuilder is added
 - GradientSnackyBuilder is added
 - Simplified the example app
 
-## Breaking
+### Breaking
 
 - Changed the leading icons for the SimpleSnackyBuilder
 
-# 0.2.5
+## 0.2.5
 
-## Fix
+### Fix
 
 - Yellow underline (because of missing `Material` widget)
 
-## Docs
+### Docs
 
 - Added documentation on the Snacky custom widget implementation
 
-# 0.2.4
+## 0.2.4
 
-## CI
+### CI
 
 - improved CI test job
 
-# 0.2.3
+## 0.2.3
 
-## CI
+### CI
 
 - CI test job
 
-# 0.2.2
+## 0.2.2
 
-## Test
+### Test
 
 - Smoke test to show notifications
 - Smoke test to check if onTap works
 
-# 0.2.1
+## 0.2.1
 
-## Documentation
+### Documentation
 
 - Fixed readme.md
 
-# 0.2.0
+## 0.2.0
 
-## Breaking
+### Breaking
 
 - Added support to use context before creating the `Snacky` object
 
-## Feat
+### Feat
 
 - Switch to OverlayState instead of a custom implementation
 
-# 0.1.0
+## 0.1.0
 
-## Feat
+### Feat
 
 - Added support for custom notification builders.
 - Added support for more SnackyLocations. (top, topStart, topEnd, bottom, bottomStart, bottomEnd)
 - Better swipe to dismiss support.
 
-# 0.0.14
+## 0.0.14
 
-## Fix
+### Fix
 
 - Better documentation in the `README.md` about the `SnackyNavigationObserver`
 
-# 0.0.12 - 0.0.13
+## 0.0.12 - 0.0.13
 
-## Fix
+### Fix
 
 - Extra documentation in the `README.md`
 
-# 0.0.10 - 0.0.11
+## 0.0.10 - 0.0.11
 
-## Fix
+### Fix
 
 - Automated builds using GitHub Actions
 - Added preview video to the `README.md`
 
-# 0.0.4 - 0.0.9
+## 0.0.4 - 0.0.9
 
-## Fix
+### Fix
 
 - Added `Snacky` logo to the `README.md`
 
-# 0.0.3
+## 0.0.3
 
-## Fix
+### Fix
 
 - Exported all requried files
 - Cancel all snackies when a new route is pushed or a route is replaced `SnackyNavigationObserver`
 
-# 0.0.2
+## 0.0.2
 
-## Fix
+### Fix
 
 - Description of the package
 - Spacing between leading & text & trailing widgets
 
-# 0.0.1
+## 0.0.1
 
 - initial release

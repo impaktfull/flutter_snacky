@@ -20,6 +20,8 @@ jobs:
         uses: actions/configure-pages@v3
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
       - run: flutter packages get
       - run: dart analyze
       - run: flutter packages get
