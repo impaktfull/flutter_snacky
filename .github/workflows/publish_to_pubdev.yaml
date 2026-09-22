@@ -1,9 +1,12 @@
 name: Publish to pub.dev
 
+# Triggered by the tag release-please pushes when its release PR is merged.
+# pub.dev is configured to accept tags matching `v{{version}}` from the
+# `pub.dev` environment; both must stay in sync with that setting.
 on:
   push:
     tags:
-      - 'v[0-9]+.[0-9]+.[0-9]+*'
+      - "v[0-9]+.[0-9]+.[0-9]+*"
 
 jobs:
   publish:
@@ -11,4 +14,4 @@ jobs:
       id-token: write # Required for authentication using OIDC
     uses: impaktfull/gh_action_dart_conventional_release/.github/workflows/flutter_release.yml@main
     with:
-      environment: 'pub.dev'
+      environment: "pub.dev"
