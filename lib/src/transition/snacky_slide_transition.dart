@@ -26,7 +26,11 @@ class SnackySlideTransition extends StatefulWidget {
 
 class _SnackySlideTransitionState extends State<SnackySlideTransition>
     with SingleTickerProviderStateMixin, CancelableSnackyListener {
-  Timer? _timer;
+  /// Hides the snacky once its `showDuration` has passed.
+  Timer? _showTimer;
+
+  /// Removes the snacky once the slide out transition has finished.
+  Timer? _removeTimer;
 
   var _animationState = _AnimationState.slideIn;
   Snacky get snacky => widget.cancelableSnacky.snacky;
@@ -40,15 +44,7 @@ class _SnackySlideTransitionState extends State<SnackySlideTransition>
     _controller = AnimationController(
       duration: snacky.transitionDuration,
       vsync: this,
-    )..forward().whenCompleteOrCancel(() {
-        if (!mounted) return;
-        _animationState = _AnimationState.hold;
-        _timer = Timer(snacky.showDuration, () {
-          if (!mounted) return;
-          if (snacky.openUntillClosed) return;
-          _slideOut();
-        });
-      });
+    );
 
     // Animation
     final beginX = widget.snackyLocation == SnackyLocation.topStart ||
@@ -72,12 +68,20 @@ class _SnackySlideTransitionState extends State<SnackySlideTransition>
     ));
     widget.cancelableSnacky.attach(this);
     super.initState();
+
+    if (widget.cancelableSnacky.isCancelled) {
+      // Cancelled before it was built: never show it, remove it right away.
+      _animationState = _AnimationState.slideOut;
+      WidgetsBinding.instance.addPostFrameCallback((_) => _remove());
+      return;
+    }
+    _controller.forward().whenCompleteOrCancel(_onSlideInFinished);
   }
 
   @override
   void dispose() {
     widget.cancelableSnacky.detach(this);
-    _timer?.cancel();
+    _cancelTimers();
     _controller.dispose();
     super.dispose();
   }
@@ -93,14 +97,41 @@ class _SnackySlideTransitionState extends State<SnackySlideTransition>
   @override
   void onSnackyCanceled() => _slideOut();
 
+  void _onSlideInFinished() {
+    if (!mounted) return;
+    // The slide in is also "finished" when it is interrupted by a slide out.
+    if (_animationState != _AnimationState.slideIn) return;
+    _animationState = _AnimationState.hold;
+    if (snacky.openUntillClosed) return;
+    _showTimer = Timer(snacky.showDuration, () {
+      _showTimer = null;
+      if (!mounted) return;
+      _slideOut();
+    });
+  }
+
   void _slideOut() {
+    if (!mounted) return;
     if (_animationState == _AnimationState.slideOut) return;
     _animationState = _AnimationState.slideOut;
+    _cancelTimers();
     _controller.reverse();
-    _timer = Timer(snacky.transitionDuration, () {
-      if (!mounted) return;
-      widget.cancelableSnacky.removed();
+    _removeTimer = Timer(snacky.transitionDuration, () {
+      _removeTimer = null;
+      _remove();
     });
+  }
+
+  void _remove() {
+    if (!mounted) return;
+    widget.cancelableSnacky.removed();
+  }
+
+  void _cancelTimers() {
+    _showTimer?.cancel();
+    _showTimer = null;
+    _removeTimer?.cancel();
+    _removeTimer = null;
   }
 }
 
