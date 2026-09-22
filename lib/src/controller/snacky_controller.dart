@@ -10,6 +10,9 @@ class SnackyController {
   final ValueNotifier<CancelableSnacky?> _activeSnacky = ValueNotifier(null);
   OverlayEntry? _entry;
 
+  /// The listener whose overlay holds [_entry].
+  SnackyListener? _entryListener;
+
   SnackyListener? _listener;
 
   OverlayState? get _overlayState => _listener?.getOverlayState();
@@ -23,9 +26,10 @@ class SnackyController {
           'SnackyController.showMessage: overlayState is null.\n\nDid you dispose your `SnackyConfiguratorWidget`? Make sure the `SnackyConfiguratorWidget` is configured at the top of your tree and is not removed when using the app.');
       return;
     }
-    final cancelableSnacky = CancelableSnacky(
+    late final CancelableSnacky cancelableSnacky;
+    cancelableSnacky = CancelableSnacky(
       snacky: builder(overlayState.context),
-      onRemove: _onSnackyRemoved,
+      onRemove: () => _onSnackyRemoved(cancelableSnacky),
     );
     _snackies.add(cancelableSnacky);
     _scheduleNextMessage();
@@ -39,6 +43,9 @@ class SnackyController {
   void _scheduleNextMessage() {
     if (_activeSnacky.value != null) return;
     if (_snackies.isEmpty) return;
+    final listener = _listener;
+    final overlayState = _overlayState;
+    if (listener == null || overlayState == null) return;
     final nextSnacky = _snackies.removeAt(0);
     _activeSnacky.value = nextSnacky;
     notifyListeners();
@@ -46,8 +53,9 @@ class SnackyController {
       builder: (context) =>
           _listener?.buildSnacky(context, nextSnacky) ?? const SizedBox(),
     );
-    _overlayState?.insert(entry);
+    overlayState.insert(entry);
     _entry = entry;
+    _entryListener = listener;
   }
 
   void attach(SnackyListener listener) {
@@ -55,14 +63,41 @@ class SnackyController {
   }
 
   void detach(SnackyListener listener) {
-    _listener = null;
+    // A new configurator can attach before the old one is disposed.
+    if (_listener == listener) _listener = null;
+    if (_entryListener != listener) return;
+    // The active snacky was shown in the overlay of this configurator, which
+    // is going away together with the entry. Forget it, so the controller can
+    // show snackies again.
+    final orphan = _activeSnacky.value;
+    _entry = null;
+    _entryListener = null;
+    if (_listener == null) {
+      // Without a configurator there is no overlay: drop the queue, like
+      // `showMessage` drops a snacky when there is no overlay.
+      _snackies.clear();
+    }
+    // The widget tree is locked while a configurator is disposed, so
+    // listeners of `activeSnacky` and the configurator are notified, and the
+    // queue continues, after this frame.
+    WidgetsBinding.instance
+      ..addPostFrameCallback((_) {
+        if (_activeSnacky.value != orphan || _entry != null) return;
+        _activeSnacky.value = null;
+        notifyListeners();
+        _scheduleNextMessage();
+      })
+      ..scheduleFrame();
   }
 
   void notifyListeners() => _listener?.notifyListeners();
 
-  void _onSnackyRemoved() {
+  void _onSnackyRemoved(CancelableSnacky cancelableSnacky) {
+    // Only the active snacky owns the overlay entry.
+    if (_activeSnacky.value != cancelableSnacky) return;
     _entry?.remove();
     _entry = null;
+    _entryListener = null;
     _activeSnacky.value = null;
     notifyListeners();
     _scheduleNextMessage();
