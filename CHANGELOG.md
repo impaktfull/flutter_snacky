@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.9.0](https://github.com/impaktfull/flutter_snacky/compare/v0.8.0...v0.9.0) (2026-09-22)
+
+
+### Features
+
+* Updated docs & example to support latest flutter version ([b963d9f](https://github.com/impaktfull/flutter_snacky/commit/b963d9fac2b3735f5d2eff00a0d3863dd92c0651))
+
+
+### Bug Fixes
+
+* cancel the display timer when a snacky is closed early ([#11](https://github.com/impaktfull/flutter_snacky/issues/11)) ([120dc49](https://github.com/impaktfull/flutter_snacky/commit/120dc49c08d0de45ef8a9f592b5fa784e6e31c1e))
+* documentation ([99d51cd](https://github.com/impaktfull/flutter_snacky/commit/99d51cdb5e1e45f80468cfa6e2b2b9760cb547f6))
+* full width buttons ([c7054e0](https://github.com/impaktfull/flutter_snacky/commit/c7054e00d683abeb2bd148a0fb3b323401df6cf0))
+* SnackyController shows snackies again after its configurator is removed while a snacky is active ([120dc49](https://github.com/impaktfull/flutter_snacky/commit/120dc49c08d0de45ef8a9f592b5fa784e6e31c1e))
+
 ## 0.8.0
 
 ### Feat
