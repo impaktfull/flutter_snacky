@@ -56,9 +56,19 @@ Use the latest stable Flutter release (`flutter channel stable && flutter upgrad
 dart format .
 flutter analyze .
 flutter test
+flutter pub publish --dry-run                          # must report 0 warnings
+dart pub global run pana --exit-code-threshold 10 .    # after `dart pub global activate pana`
+(cd example && flutter build web)
 ```
 
-Every pull request and push to `main` runs `.github/workflows/validate.yml` (`dart format` with no changes allowed, `flutter analyze .` of the package and the example, and `flutter test`), which must pass before merging.
+Every pull request and push to `main` runs `.github/workflows/validate.yml`, which must pass before merging. Its jobs check what the release and the deployments need, so they fail on the pull request instead of after the merge:
+
+- **Format, analyze & test**: `dart format` with no changes allowed, `flutter analyze .` of the package and the example, and `flutter test`.
+- **pub.dev publish dry run**: the same `flutter pub publish --dry-run` that `publish_to_pubdev.yaml` runs before publishing. Any warning fails the release.
+- **pub.dev score**: [pana](https://pub.dev/packages/pana), the analysis pub.dev scores packages with. The package currently scores 150/160 (it loses 10 points for dartdoc coverage), and `--exit-code-threshold 10` fails the job when it loses more. Lower the threshold when the coverage improves.
+- **Example**: builds the example for the web with `.github/workflows/build_example_web.yml`, the same workflow `publish_to_githubpages.yaml` deploys to GitHub Pages.
+
+`.github/workflows/pr_title.yml` checks that the pull request title is a Conventional Commit with one of the types in `release-please-config.json`.
 
 ## Create Pull Request
 

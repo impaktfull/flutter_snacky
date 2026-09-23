@@ -6,34 +6,29 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
+
+# Never cancel a deployment that is in progress, but only the latest queued one
+# runs.
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build:
+    uses: ./.github/workflows/build_example_web.yml
+    with:
+      upload-pages-artifact: true
+
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-      - run: flutter packages get
-      - run: dart analyze
-      - run: flutter packages get
-        working-directory: ./example
-      - run: dart analyze
-        working-directory: ./example
-      - run: flutter build web
-        working-directory: ./example
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3.0.1
-        with:
-          path: "./example/build/web"
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

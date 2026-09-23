@@ -11,11 +11,15 @@ concurrency:
   group: validate-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   validate:
+    name: Format, analyze & test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Always the latest stable Flutter release, like the apps that use snacky.
       - uses: subosito/flutter-action@v2
@@ -38,3 +42,46 @@ jobs:
 
       - name: Test
         run: flutter test
+
+  # The same dry run `publish_to_pubdev.yaml` does before publishing. Any
+  # warning makes it exit with code 65, and makes the release fail.
+  publish-dry-run:
+    name: pub.dev publish dry run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Publish dry run
+        run: flutter pub publish --dry-run
+
+  # The analysis pub.dev runs to score the package. Fails when the package
+  # loses more points than `--exit-code-threshold` allows (currently the 10
+  # points for dartdoc coverage).
+  pub-score:
+    name: pub.dev score
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install pana
+        run: dart pub global activate pana
+
+      - name: Score
+        run: dart pub global run pana --no-warning --exit-code-threshold 10 .
+
+  example-web:
+    name: Example
+    uses: ./.github/workflows/build_example_web.yml

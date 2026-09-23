@@ -1,0 +1,41 @@
+name: Build example for the web
+
+# The one place the example is built for the web. `validate.yml` runs it on
+# every pull request and `publish_to_githubpages.yaml` deploys its output, so a
+# pull request fails on exactly what would break GitHub Pages.
+on:
+  workflow_call:
+    inputs:
+      upload-pages-artifact:
+        description: Upload the build as the GitHub Pages artifact.
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  build:
+    name: Build example for the web
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+        working-directory: ./example
+
+      # The site is served from a custom domain, so the default base href `/`
+      # is correct.
+      - name: Build
+        run: flutter build web
+        working-directory: ./example
+
+      - name: Upload Pages artifact
+        if: inputs.upload-pages-artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./example/build/web
