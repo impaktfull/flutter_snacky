@@ -1,0 +1,21 @@
+# What the published package does not need. `.pubignore` replaces `.gitignore`
+# for pub, so it repeats those entries too.
+build/
+.dart_tool/
+.idea/
+.vscode/
+*.iml
+.DS_Store
+
+# `docs/` is the docs.page source (docs.json points at it). pub wants a
+# top-level directory named `doc`, and warns about `docs`, which makes
+# `pub publish` fail. The docs are published from the repository, not from the
+# package.
+docs/
+docs.json
+
+# Development only.
+.github/
+AGENTS.md
+.release-please-manifest.json
+release-please-config.json
