@@ -1,0 +1,39 @@
+name: Pull request title
+
+# Pull requests are squash-merged, so the title becomes the commit on `main`
+# that release-please reads to write the changelog and pick the version bump.
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+
+permissions:
+  pull-requests: read
+
+jobs:
+  conventional-commit:
+    name: Conventional Commit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # The types in `changelog-sections` of `release-please-config.json`.
+          types: |
+            feat
+            fix
+            deprecate
+            perf
+            revert
+            docs
+            style
+            chore
+            refactor
+            test
+            build
+            ci
+          requireScope: false
